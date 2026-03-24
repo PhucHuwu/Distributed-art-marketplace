@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model StockItem {
+  id            String             @id @default(uuid()) @db.Uuid
+  artworkId     String             @unique @map("artwork_id")
+  onHandQty     Int                @default(0) @map("on_hand_qty")
+  reservedQty   Int                @default(0) @map("reserved_qty")
+  createdAt     DateTime           @default(now()) @map("created_at")
+  updatedAt     DateTime           @updatedAt @map("updated_at")
+  reservations  StockReservation[]
+
+  @@index([artworkId], map: "idx_stock_items_artwork_id")
+  @@map("stock_items")
+}
+
+model StockReservation {
+  id            String                 @id @default(uuid()) @db.Uuid
+  reservationId String                 @map("reservation_id")
+  orderId       String                 @map("order_id")
+  artworkId     String                 @map("artwork_id")
+  quantity      Int
+  status        StockReservationStatus @default(RESERVED)
+  releasedAt    DateTime?              @map("released_at")
+  createdAt     DateTime               @default(now()) @map("created_at")
+  updatedAt     DateTime               @updatedAt @map("updated_at")
+  stockItemId   String                 @map("stock_item_id") @db.Uuid
+  stockItem     StockItem              @relation(fields: [stockItemId], references: [id], onDelete: Cascade)
+
+  @@index([orderId], map: "idx_stock_reservations_order_id")
+  @@index([artworkId], map: "idx_stock_reservations_artwork_id")
+  @@index([status], map: "idx_stock_reservations_status")
+  @@unique([reservationId, artworkId], map: "uk_stock_reservation_artwork")
+  @@map("stock_reservations")
+}
+
+model ProcessedEvent {
+  id            String   @id @default(uuid()) @db.Uuid
+  eventId       String   @unique @map("event_id")
+  eventType     String   @map("event_type")
+  correlationId String   @map("correlation_id")
+  processedAt   DateTime @default(now()) @map("processed_at")
+
+  @@index([eventType], map: "idx_processed_events_event_type")
+  @@map("processed_events")
+}
+
+enum StockReservationStatus {
+  RESERVED
+  RELEASED
+  CANCELLED
+}

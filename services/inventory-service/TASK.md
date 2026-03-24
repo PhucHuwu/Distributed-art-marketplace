@@ -14,24 +14,24 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] I1 - Initialize service structure and config validation.
-- [ ] I2 - Setup Prisma datasource for schema `inventory`.
-- [ ] I3 - Create models: `stock_items`, `stock_reservations` + migration.
-- [ ] I4 - Implement stock repository with transaction support.
-- [ ] I5 - Implement `GET /inventory/{artworkId}`.
-- [ ] I6 - Implement `POST /inventory/adjust` (admin/internal).
-- [ ] I7 - Implement `POST /inventory/reserve` with concurrency-safe logic.
-- [ ] I8 - Implement `POST /inventory/release` with reservation status handling.
-- [ ] I9 - Consume `order.created` event.
-- [ ] I10 - Add idempotency check by `eventId` for consumer.
-- [ ] I11 - Publish `inventory.reserved` and `inventory.failed` events.
-- [ ] I12 - Add retry/backoff and DLQ-ready consume strategy.
-- [ ] I13 - Add `GET /health` endpoint.
-- [ ] I14 - Integrate OpenAPI spec generation for inventory endpoints.
-- [ ] I15 - Expose Swagger UI route for API testing.
-- [ ] I16 - Add structured logging with `correlationId`.
-- [ ] I17 - Add tests for reserve success, reserve fail, duplicate event, release flow.
-- [ ] I18 - Update service README with run, env, events, endpoints, and Swagger URL.
+- [x] I1 - Initialize service structure and config validation.
+- [x] I2 - Setup Prisma datasource for schema `inventory`.
+- [x] I3 - Create models: `stock_items`, `stock_reservations` + migration.
+- [x] I4 - Implement stock repository with transaction support.
+- [x] I5 - Implement `GET /inventory/{artworkId}`.
+- [x] I6 - Implement `POST /inventory/adjust` (admin/internal).
+- [x] I7 - Implement `POST /inventory/reserve` with concurrency-safe logic.
+- [x] I8 - Implement `POST /inventory/release` with reservation status handling.
+- [x] I9 - Consume `order.created` event.
+- [x] I10 - Add idempotency check by `eventId` for consumer.
+- [x] I11 - Publish `inventory.reserved` and `inventory.failed` events.
+- [x] I12 - Add retry/backoff and DLQ-ready consume strategy.
+- [x] I13 - Add `GET /health` endpoint.
+- [x] I14 - Integrate OpenAPI spec generation for inventory endpoints.
+- [x] I15 - Expose Swagger UI route for API testing.
+- [x] I16 - Add structured logging with `correlationId`.
+- [x] I17 - Add tests for reserve success, reserve fail, duplicate event, release flow.
+- [x] I18 - Update service README with run, env, events, endpoints, and Swagger URL.
 
 ## Acceptance Criteria
 

@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+enum PaymentStatus {
+  INITIATED
+  PROCESSING
+  SUCCESS
+  FAILED
+}
+
+model Payment {
+  id                String               @id @default(uuid()) @db.Uuid
+  orderId           String               @map("order_id")
+  userId            String?              @map("user_id")
+  amount            Decimal              @db.Decimal(12, 2)
+  currency          String
+  provider          String
+  status            PaymentStatus
+  correlationId     String               @map("correlation_id")
+  providerReference String?              @map("provider_reference")
+  failureCode       String?              @map("failure_code")
+  failureMessage    String?              @map("failure_message")
+  createdAt         DateTime             @default(now()) @map("created_at")
+  updatedAt         DateTime             @updatedAt @map("updated_at")
+  processedAt       DateTime?            @map("processed_at")
+  histories         PaymentStatusHistory[]
+
+  @@index([orderId], map: "idx_payments_order_id")
+  @@index([status], map: "idx_payments_status")
+  @@index([correlationId], map: "idx_payments_correlation_id")
+  @@map("payments")
+}
+
+model PaymentStatusHistory {
+  id            String        @id @default(uuid()) @db.Uuid
+  paymentId     String        @map("payment_id") @db.Uuid
+  fromStatus    PaymentStatus? @map("from_status")
+  toStatus      PaymentStatus @map("to_status")
+  reason        String?
+  correlationId String        @map("correlation_id")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  metadata      Json?
+  payment       Payment       @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([paymentId], map: "idx_payment_status_histories_payment_id")
+  @@index([createdAt], map: "idx_payment_status_histories_created_at")
+  @@map("payment_status_histories")
+}

@@ -15,30 +15,30 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] O1 - Initialize service structure and config validation.
-- [ ] O2 - Setup Prisma datasource for schema `orders`.
-- [ ] O3 - Create models: `carts`, `cart_items`, `orders`, `order_items`, `order_status_histories`.
-- [ ] O4 - Create first migration.
-- [ ] O5 - Implement `GET /orders/cart`.
-- [ ] O6 - Implement `POST /orders/cart/items`.
-- [ ] O7 - Implement `PUT /orders/cart/items/{id}`.
-- [ ] O8 - Implement `DELETE /orders/cart/items/{id}`.
-- [ ] O9 - Implement `POST /orders` to create order with `PENDING`.
-- [ ] O10 - Snapshot shipping address and pricing at order creation.
-- [ ] O11 - Publish `order.created` after order creation success.
-- [ ] O12 - Consume `inventory.reserved` and move to `AWAITING_PAYMENT`.
-- [ ] O13 - Consume `inventory.failed` and move to `FAILED`.
-- [ ] O14 - Consume `payment.success` and move to `COMPLETED` then publish `order.completed`.
-- [ ] O15 - Consume `payment.failed` and move to `FAILED` then publish `order.failed`.
-- [ ] O16 - Persist status changes into `order_status_histories`.
-- [ ] O17 - Add idempotency guard for event consumer by `eventId`.
-- [ ] O18 - Implement `GET /orders/{orderId}` and `GET /orders/me`.
-- [ ] O19 - Add `GET /health` endpoint.
-- [ ] O20 - Integrate OpenAPI spec generation for order endpoints.
-- [ ] O21 - Expose Swagger UI route for API testing.
-- [ ] O22 - Add structured logging with `correlationId`.
-- [ ] O23 - Add tests for cart flow and full lifecycle transitions.
-- [ ] O24 - Update service README with run, env, events, endpoints, and Swagger URL.
+- [x] O1 - Initialize service structure and config validation.
+- [x] O2 - Setup Prisma datasource for schema `orders`.
+- [x] O3 - Create models: `carts`, `cart_items`, `orders`, `order_items`, `order_status_histories`.
+- [x] O4 - Create first migration.
+- [x] O5 - Implement `GET /orders/cart`.
+- [x] O6 - Implement `POST /orders/cart/items`.
+- [x] O7 - Implement `PUT /orders/cart/items/{id}`.
+- [x] O8 - Implement `DELETE /orders/cart/items/{id}`.
+- [x] O9 - Implement `POST /orders` to create order with `PENDING`.
+- [x] O10 - Snapshot shipping address and pricing at order creation.
+- [x] O11 - Publish `order.created` after order creation success.
+- [x] O12 - Consume `inventory.reserved` and move to `AWAITING_PAYMENT`.
+- [x] O13 - Consume `inventory.failed` and move to `FAILED`.
+- [x] O14 - Consume `payment.success` and move to `COMPLETED` then publish `order.completed`.
+- [x] O15 - Consume `payment.failed` and move to `FAILED` then publish `order.failed`.
+- [x] O16 - Persist status changes into `order_status_histories`.
+- [x] O17 - Add idempotency guard for event consumer by `eventId`.
+- [x] O18 - Implement `GET /orders/{orderId}` and `GET /orders/me`.
+- [x] O19 - Add `GET /health` endpoint.
+- [x] O20 - Integrate OpenAPI spec generation for order endpoints.
+- [x] O21 - Expose Swagger UI route for API testing.
+- [x] O22 - Add structured logging with `correlationId`.
+- [x] O23 - Add tests for cart flow and full lifecycle transitions.
+- [x] O24 - Update service README with run, env, events, endpoints, and Swagger URL.
 
 ## Acceptance Criteria
 

@@ -13,23 +13,23 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] U1 - Initialize service structure and config validation.
-- [ ] U2 - Setup Prisma datasource for schema `users`.
-- [ ] U3 - Create `user_profiles` and `user_addresses` models + migration.
-- [ ] U4 - Implement auth middleware to extract JWT identity.
-- [ ] U5 - Implement `GET /users/me`.
-- [ ] U6 - Implement `PUT /users/me` with input validation.
-- [ ] U7 - Implement `GET /users/me/addresses`.
-- [ ] U8 - Implement `POST /users/me/addresses`.
-- [ ] U9 - Implement `PUT /users/me/addresses/{id}`.
-- [ ] U10 - Implement `DELETE /users/me/addresses/{id}`.
-- [ ] U11 - Enforce one-default-address rule per user.
-- [ ] U12 - Add `GET /health` endpoint.
-- [ ] U13 - Integrate OpenAPI spec generation for user profile endpoints.
-- [ ] U14 - Expose Swagger UI route for API testing.
-- [ ] U15 - Add structured logging with `correlationId`.
-- [ ] U16 - Add API test cases for profile and address CRUD.
-- [ ] U17 - Update service README with run, env, endpoint list, and Swagger URL.
+- [x] U1 - Initialize service structure and config validation.
+- [x] U2 - Setup Prisma datasource for schema `users`.
+- [x] U3 - Create `user_profiles` and `user_addresses` models + migration.
+- [x] U4 - Implement auth middleware to extract JWT identity.
+- [x] U5 - Implement `GET /users/me`.
+- [x] U6 - Implement `PUT /users/me` with input validation.
+- [x] U7 - Implement `GET /users/me/addresses`.
+- [x] U8 - Implement `POST /users/me/addresses`.
+- [x] U9 - Implement `PUT /users/me/addresses/{id}`.
+- [x] U10 - Implement `DELETE /users/me/addresses/{id}`.
+- [x] U11 - Enforce one-default-address rule per user.
+- [x] U12 - Add `GET /health` endpoint.
+- [x] U13 - Integrate OpenAPI spec generation for user profile endpoints.
+- [x] U14 - Expose Swagger UI route for API testing.
+- [x] U15 - Add structured logging with `correlationId`.
+- [x] U16 - Add API test cases for profile and address CRUD.
+- [x] U17 - Update service README with run, env, endpoint list, and Swagger URL.
 
 ## Acceptance Criteria
 

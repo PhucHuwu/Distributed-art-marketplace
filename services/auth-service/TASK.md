@@ -14,22 +14,22 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] A1 - Initialize service structure (src, config, routes, controllers, services, prisma).
-- [ ] A2 - Setup env loader and base config validation.
-- [ ] A3 - Setup Prisma datasource for schema `auth`.
-- [ ] A4 - Create `credentials` model and first migration.
-- [ ] A5 - Implement password hash utility (bcrypt/argon2) and unit test.
-- [ ] A6 - Implement `POST /auth/register` with validation and duplicate email handling.
-- [ ] A7 - Implement `POST /auth/login` with credential verification.
-- [ ] A8 - Implement JWT issue helper and token expiry config.
-- [ ] A9 - Implement `GET /auth/verify` middleware + endpoint.
-- [ ] A10 - Add refresh token skeleton (model + route stub) if MVP+.
-- [ ] A11 - Add `GET /health` endpoint.
-- [ ] A12 - Integrate OpenAPI spec generation for auth endpoints.
-- [ ] A13 - Expose Swagger UI route for API testing.
-- [ ] A14 - Add structured logging with `correlationId`.
-- [ ] A15 - Add API test cases: success, invalid password, user not found, invalid token.
-- [ ] A16 - Update service README with run, env, endpoint list, and Swagger URL.
+- [x] A1 - Initialize service structure (src, config, routes, controllers, services, prisma).
+- [x] A2 - Setup env loader and base config validation.
+- [x] A3 - Setup Prisma datasource for schema `auth`.
+- [x] A4 - Create `credentials` model and first migration.
+- [x] A5 - Implement password hash utility (bcrypt/argon2) and unit test.
+- [x] A6 - Implement `POST /auth/register` with validation and duplicate email handling.
+- [x] A7 - Implement `POST /auth/login` with credential verification.
+- [x] A8 - Implement JWT issue helper and token expiry config.
+- [x] A9 - Implement `GET /auth/verify` middleware + endpoint.
+- [x] A10 - Add refresh token skeleton (model + route stub) if MVP+.
+- [x] A11 - Add `GET /health` endpoint.
+- [x] A12 - Integrate OpenAPI spec generation for auth endpoints.
+- [x] A13 - Expose Swagger UI route for API testing.
+- [x] A14 - Add structured logging with `correlationId`.
+- [x] A15 - Add API test cases: success, invalid password, user not found, invalid token.
+- [x] A16 - Update service README with run, env, endpoint list, and Swagger URL.
 
 ## Acceptance Criteria
 

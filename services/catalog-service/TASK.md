@@ -13,24 +13,24 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] C1 - Initialize service structure and config validation.
-- [ ] C2 - Setup Prisma datasource for schema `catalog`.
-- [ ] C3 - Create models: `artists`, `artworks`, `artwork_images`, `categories`, `artwork_categories`.
-- [ ] C4 - Create first migration and seed sample data for local testing.
-- [ ] C5 - Implement `GET /catalog/artworks` with pagination.
-- [ ] C6 - Add filters: artist, category, min/max price.
-- [ ] C7 - Implement keyword search on title/artist.
-- [ ] C8 - Implement `GET /catalog/artworks/{idOrSlug}`.
-- [ ] C9 - Implement `GET /catalog/artists`.
-- [ ] C10 - Implement admin `POST /catalog/artworks`.
-- [ ] C11 - Implement admin `PUT /catalog/artworks/{id}`.
-- [ ] C12 - Add basic admin auth guard for write APIs.
-- [ ] C13 - Add `GET /health` endpoint.
-- [ ] C14 - Integrate OpenAPI spec generation for catalog endpoints.
-- [ ] C15 - Expose Swagger UI route for API testing.
-- [ ] C16 - Add structured logging with `correlationId`.
-- [ ] C17 - Add API test cases for list/detail/filter/admin writes.
-- [ ] C18 - Update service README with run, env, endpoint list, and Swagger URL.
+- [x] C1 - Initialize service structure and config validation.
+- [x] C2 - Setup Prisma datasource for schema `catalog`.
+- [x] C3 - Create models: `artists`, `artworks`, `artwork_images`, `categories`, `artwork_categories`.
+- [x] C4 - Create first migration and seed sample data for local testing.
+- [x] C5 - Implement `GET /catalog/artworks` with pagination.
+- [x] C6 - Add filters: artist, category, min/max price.
+- [x] C7 - Implement keyword search on title/artist.
+- [x] C8 - Implement `GET /catalog/artworks/{idOrSlug}`.
+- [x] C9 - Implement `GET /catalog/artists`.
+- [x] C10 - Implement admin `POST /catalog/artworks`.
+- [x] C11 - Implement admin `PUT /catalog/artworks/{id}`.
+- [x] C12 - Add basic admin auth guard for write APIs.
+- [x] C13 - Add `GET /health` endpoint.
+- [x] C14 - Integrate OpenAPI spec generation for catalog endpoints.
+- [x] C15 - Expose Swagger UI route for API testing.
+- [x] C16 - Add structured logging with `correlationId`.
+- [x] C17 - Add API test cases for list/detail/filter/admin writes.
+- [x] C18 - Update service README with run, env, endpoint list, and Swagger URL.
 
 ## Acceptance Criteria
 

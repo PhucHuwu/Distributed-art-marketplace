@@ -14,23 +14,23 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] P1 - Initialize service structure and config validation.
-- [ ] P2 - Setup Prisma datasource for schema `payments`.
-- [ ] P3 - Create `payments` model and first migration.
-- [ ] P4 - Implement `POST /payments` (create INITIATED transaction).
-- [ ] P5 - Implement transition to `PROCESSING` in processing flow.
-- [ ] P6 - Implement transition to `SUCCESS` and publish `payment.success`.
-- [ ] P7 - Implement transition to `FAILED` and publish `payment.failed`.
-- [ ] P8 - Validate state transition rules to avoid invalid jumps.
-- [ ] P9 - Implement `GET /payments/{id}`.
-- [ ] P10 - Add webhook stub `POST /payments/webhook/{provider}`.
-- [ ] P11 - Add event producer abstraction and retry publishing strategy.
-- [ ] P12 - Add `GET /health` endpoint.
-- [ ] P13 - Integrate OpenAPI spec generation for payment endpoints.
-- [ ] P14 - Expose Swagger UI route for API testing.
-- [ ] P15 - Add structured logging with `correlationId`.
-- [ ] P16 - Add API test cases for create/get/success/failed transitions.
-- [ ] P17 - Update service README with run, env, events, endpoints, and Swagger URL.
+- [x] P1 - Initialize service structure and config validation.
+- [x] P2 - Setup Prisma datasource for schema `payments`.
+- [x] P3 - Create `payments` model and first migration.
+- [x] P4 - Implement `POST /payments` (create INITIATED transaction).
+- [x] P5 - Implement transition to `PROCESSING` in processing flow.
+- [x] P6 - Implement transition to `SUCCESS` and publish `payment.success`.
+- [x] P7 - Implement transition to `FAILED` and publish `payment.failed`.
+- [x] P8 - Validate state transition rules to avoid invalid jumps.
+- [x] P9 - Implement `GET /payments/{id}`.
+- [x] P10 - Add webhook stub `POST /payments/webhook/{provider}`.
+- [x] P11 - Add event producer abstraction and retry publishing strategy.
+- [x] P12 - Add `GET /health` endpoint.
+- [x] P13 - Integrate OpenAPI spec generation for payment endpoints.
+- [x] P14 - Expose Swagger UI route for API testing.
+- [x] P15 - Add structured logging with `correlationId`.
+- [x] P16 - Add API test cases for create/get/success/failed transitions.
+- [x] P17 - Update service README with run, env, events, endpoints, and Swagger URL.
 
 ## Acceptance Criteria
 

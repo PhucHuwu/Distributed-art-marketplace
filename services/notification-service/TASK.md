@@ -13,23 +13,23 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] N1 - Initialize service structure and config validation.
-- [ ] N2 - Implement event consumer bootstrap for RabbitMQ.
-- [ ] N3 - Subscribe to `order.completed`.
-- [ ] N4 - Subscribe to `order.failed`.
-- [ ] N5 - Subscribe to `payment.failed`.
-- [ ] N6 - Build notification payload mapper per event type.
-- [ ] N7 - Implement email sender abstraction + mock provider.
-- [ ] N8 - Implement SMS sender abstraction + mock provider.
-- [ ] N9 - Implement idempotency guard to avoid duplicate sends.
-- [ ] N10 - Implement retry/backoff for transient errors.
-- [ ] N11 - Add failure handling and DLQ-ready processing.
-- [ ] N12 - Add `GET /health` endpoint.
-- [ ] N13 - Integrate OpenAPI spec generation for available internal/debug endpoints.
-- [ ] N14 - Expose Swagger UI route for API testing.
-- [ ] N15 - Add structured logging with `correlationId`.
-- [ ] N16 - Add tests for consume success, duplicate event, transient failure retry.
-- [ ] N17 - Update service README with run, env, subscribed events, and Swagger URL.
+- [x] N1 - Initialize service structure and config validation.
+- [x] N2 - Implement event consumer bootstrap for RabbitMQ.
+- [x] N3 - Subscribe to `order.completed`.
+- [x] N4 - Subscribe to `order.failed`.
+- [x] N5 - Subscribe to `payment.failed`.
+- [x] N6 - Build notification payload mapper per event type.
+- [x] N7 - Implement email sender abstraction + mock provider.
+- [x] N8 - Implement SMS sender abstraction + mock provider.
+- [x] N9 - Implement idempotency guard to avoid duplicate sends.
+- [x] N10 - Implement retry/backoff for transient errors.
+- [x] N11 - Add failure handling and DLQ-ready processing.
+- [x] N12 - Add `GET /health` endpoint.
+- [x] N13 - Integrate OpenAPI spec generation for available internal/debug endpoints.
+- [x] N14 - Expose Swagger UI route for API testing.
+- [x] N15 - Add structured logging with `correlationId`.
+- [x] N16 - Add tests for consume success, duplicate event, transient failure retry.
+- [x] N17 - Update service README with run, env, subscribed events, and Swagger URL.
 
 ## Acceptance Criteria
 
