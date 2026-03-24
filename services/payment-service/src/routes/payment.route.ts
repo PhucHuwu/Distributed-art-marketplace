@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { PaymentPublisher } from '../broker/publisher';
+import { auth } from '../middlewares/auth';
 import { createAndProcessPayment, getPaymentById } from '../services/payment.service';
 import { HttpError } from '../utils/http-error';
 import { RequestWithCorrelationId } from '../types/http';
 
-export function createPaymentRouter(publisher: PaymentPublisher): Router {
+export function createPaymentRouter(config: { publisher: PaymentPublisher; jwtSecret: string }): Router {
   const router = Router();
+  router.use(auth(config.jwtSecret));
 
   router.post('/payments', async (req: RequestWithCorrelationId, res, next) => {
     try {
@@ -37,21 +39,34 @@ export function createPaymentRouter(publisher: PaymentPublisher): Router {
         throw new HttpError(400, 'VALIDATION_ERROR', 'provider is required');
       }
 
+      if (
+        req.auth?.role !== 'ADMIN' &&
+        typeof body.userId === 'string' &&
+        body.userId.trim() !== req.auth?.userId
+      ) {
+        throw new HttpError(403, 'FORBIDDEN', 'Cannot create payment for another user');
+      }
+
       const correlationId = req.headers['x-correlation-id'];
       if (!correlationId) {
         throw new HttpError(500, 'INTERNAL_ERROR', 'Missing correlation id context');
       }
 
+      const effectiveUserId =
+        req.auth?.role === 'ADMIN' && typeof body.userId === 'string'
+          ? body.userId.trim() || null
+          : req.auth?.userId || null;
+
       const payment = await createAndProcessPayment(
         {
           orderId: body.orderId,
-          userId: typeof body.userId === 'string' ? body.userId : null,
+          userId: effectiveUserId,
           amount: body.amount,
           currency: body.currency,
           provider: body.provider,
           correlationId,
         },
-        publisher,
+        config.publisher,
         body.processingResult || 'SUCCESS',
         body.providerReference,
         body.failureCode,
@@ -85,6 +100,10 @@ export function createPaymentRouter(publisher: PaymentPublisher): Router {
   router.get('/payments/:id', async (req, res, next) => {
     try {
       const payment = await getPaymentById(req.params.id);
+
+      if (req.auth?.role !== 'ADMIN' && payment.userId !== req.auth?.userId) {
+        throw new HttpError(403, 'FORBIDDEN', 'Cannot access another user payment');
+      }
 
       res.status(200).json({
         success: true,

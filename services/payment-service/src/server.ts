@@ -18,7 +18,7 @@ async function bootstrap(): Promise<void> {
     retryDelayMs: config.publishRetryDelayMs,
   });
 
-  const app = createApp(config.serviceName, publisher);
+  const app = createApp(config.serviceName, config.jwtSecret, publisher);
 
   app.listen(config.servicePort, () => {
     logger.info({ servicePort: config.servicePort }, 'Payment service started');

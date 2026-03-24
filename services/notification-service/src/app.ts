@@ -2,12 +2,13 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { openApiSpec } from './constants/openapi';
 import { NotificationConsumer } from './types/consumer';
+import { adminAuth } from './middlewares/admin-auth';
 import { errorHandler } from './middlewares/error-handler';
 import { requestContext } from './middlewares/request-context';
 import { createHealthRouter } from './routes/health.route';
 import { createNotificationRouter } from './routes/notification.route';
 
-export function createApp(serviceName: string, consumer: NotificationConsumer) {
+export function createApp(serviceName: string, jwtSecret: string, consumer: NotificationConsumer) {
   const app = express();
 
   app.use(express.json({ limit: '1mb' }));
@@ -21,7 +22,7 @@ export function createApp(serviceName: string, consumer: NotificationConsumer) {
 
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
 
-  app.use(createNotificationRouter(consumer));
+  app.use(createNotificationRouter(consumer, adminAuth(jwtSecret)));
 
   app.use(errorHandler);
 

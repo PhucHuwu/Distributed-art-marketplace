@@ -39,105 +39,160 @@ services:
       - app-net
 
   auth-service:
-    image: node:20-alpine
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
     container_name: dam-auth-service
     environment:
       SERVICE_PORT: ${AUTH_SERVICE_PORT}
       DB_URL: ${AUTH_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
-    command: >
-      sh -c "node -e \"const http=require('http');const p=Number(process.env.SERVICE_PORT||3001);const send=(res,code,obj)=>{res.writeHead(code,{'Content-Type':'application/json'});res.end(JSON.stringify(obj));};const server=http.createServer((req,res)=>{if(req.url==='/health'){return send(res,200,{success:true,service:'auth-service',status:'ok'});}if(req.url==='/openapi.json'){return send(res,200,{openapi:'3.0.3',info:{title:'Auth Service API',version:'v1'}});}if(req.url==='/docs'){res.writeHead(200,{'Content-Type':'text/html'});return res.end('<h1>Auth Service Docs Placeholder</h1>');}return send(res,404,{success:false,error:{message:'Not found'}});});server.listen(p);\""
+      SERVICE_NAME: auth-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     expose:
       - '${AUTH_SERVICE_PORT}'
     networks:
       - app-net
 
   user-profile-service:
-    image: node:20-alpine
+    build:
+      context: ./services/user-profile-service
+      dockerfile: Dockerfile
     container_name: dam-user-profile-service
     environment:
       SERVICE_PORT: ${USER_PROFILE_SERVICE_PORT}
       DB_URL: ${USER_PROFILE_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
-    command: >
-      sh -c "node -e \"const http=require('http');const p=Number(process.env.SERVICE_PORT||3002);const send=(res,code,obj)=>{res.writeHead(code,{'Content-Type':'application/json'});res.end(JSON.stringify(obj));};const server=http.createServer((req,res)=>{if(req.url==='/health'){return send(res,200,{success:true,service:'user-profile-service',status:'ok'});}if(req.url==='/openapi.json'){return send(res,200,{openapi:'3.0.3',info:{title:'User Profile Service API',version:'v1'}});}if(req.url==='/docs'){res.writeHead(200,{'Content-Type':'text/html'});return res.end('<h1>User Profile Service Docs Placeholder</h1>');}return send(res,404,{success:false,error:{message:'Not found'}});});server.listen(p);\""
+      SERVICE_NAME: user-profile-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     expose:
       - '${USER_PROFILE_SERVICE_PORT}'
     networks:
       - app-net
 
   catalog-service:
-    image: node:20-alpine
+    build:
+      context: ./services/catalog-service
+      dockerfile: Dockerfile
     container_name: dam-catalog-service
     environment:
       SERVICE_PORT: ${CATALOG_SERVICE_PORT}
       DB_URL: ${CATALOG_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
-    command: >
-      sh -c "node -e \"const http=require('http');const p=Number(process.env.SERVICE_PORT||3003);const send=(res,code,obj)=>{res.writeHead(code,{'Content-Type':'application/json'});res.end(JSON.stringify(obj));};const server=http.createServer((req,res)=>{if(req.url==='/health'){return send(res,200,{success:true,service:'catalog-service',status:'ok'});}if(req.url==='/openapi.json'){return send(res,200,{openapi:'3.0.3',info:{title:'Catalog Service API',version:'v1'}});}if(req.url==='/docs'){res.writeHead(200,{'Content-Type':'text/html'});return res.end('<h1>Catalog Service Docs Placeholder</h1>');}return send(res,404,{success:false,error:{message:'Not found'}});});server.listen(p);\""
+      SERVICE_NAME: catalog-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     expose:
       - '${CATALOG_SERVICE_PORT}'
     networks:
       - app-net
 
   inventory-service:
-    image: node:20-alpine
+    build:
+      context: ./services/inventory-service
+      dockerfile: Dockerfile
     container_name: dam-inventory-service
     environment:
       SERVICE_PORT: ${INVENTORY_SERVICE_PORT}
       DB_URL: ${INVENTORY_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
-    command: >
-      sh -c "node -e \"const http=require('http');const p=Number(process.env.SERVICE_PORT||3004);const send=(res,code,obj)=>{res.writeHead(code,{'Content-Type':'application/json'});res.end(JSON.stringify(obj));};const server=http.createServer((req,res)=>{if(req.url==='/health'){return send(res,200,{success:true,service:'inventory-service',status:'ok'});}if(req.url==='/openapi.json'){return send(res,200,{openapi:'3.0.3',info:{title:'Inventory Service API',version:'v1'}});}if(req.url==='/docs'){res.writeHead(200,{'Content-Type':'text/html'});return res.end('<h1>Inventory Service Docs Placeholder</h1>');}return send(res,404,{success:false,error:{message:'Not found'}});});server.listen(p);\""
+      SERVICE_NAME: inventory-service
+      RABBITMQ_EXCHANGE: dam.domain.events.v1
+      RABBITMQ_QUEUE: dam.inventory-service.v1
+      RABBITMQ_RETRY_QUEUE: dam.inventory-service.retry.v1
+      RABBITMQ_DLQ_QUEUE: dam.inventory-service.dlq.v1
+      RABBITMQ_DLX: dam.dlx.v1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     expose:
       - '${INVENTORY_SERVICE_PORT}'
     networks:
       - app-net
 
   order-service:
-    image: node:20-alpine
+    build:
+      context: ./services/order-service
+      dockerfile: Dockerfile
     container_name: dam-order-service
     environment:
       SERVICE_PORT: ${ORDER_SERVICE_PORT}
       DB_URL: ${ORDER_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
-    command: >
-      sh -c "node -e \"const http=require('http');const p=Number(process.env.SERVICE_PORT||3005);const send=(res,code,obj)=>{res.writeHead(code,{'Content-Type':'application/json'});res.end(JSON.stringify(obj));};const server=http.createServer((req,res)=>{if(req.url==='/health'){return send(res,200,{success:true,service:'order-service',status:'ok'});}if(req.url==='/openapi.json'){return send(res,200,{openapi:'3.0.3',info:{title:'Order Service API',version:'v1'}});}if(req.url==='/docs'){res.writeHead(200,{'Content-Type':'text/html'});return res.end('<h1>Order Service Docs Placeholder</h1>');}return send(res,404,{success:false,error:{message:'Not found'}});});server.listen(p);\""
+      SERVICE_NAME: order-service
+      RABBITMQ_EXCHANGE: dam.domain.events.v1
+      RABBITMQ_QUEUE: dam.order-service.v1
+      RABBITMQ_RETRY_QUEUE: dam.order-service.retry.v1
+      RABBITMQ_DLQ_QUEUE: dam.order-service.dlq.v1
+      RABBITMQ_DLX: dam.dlx.v1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     expose:
       - '${ORDER_SERVICE_PORT}'
     networks:
       - app-net
 
   payment-service:
-    image: node:20-alpine
+    build:
+      context: ./services/payment-service
+      dockerfile: Dockerfile
     container_name: dam-payment-service
     environment:
       SERVICE_PORT: ${PAYMENT_SERVICE_PORT}
       DB_URL: ${PAYMENT_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
-    command: >
-      sh -c "node -e \"const http=require('http');const p=Number(process.env.SERVICE_PORT||3006);const send=(res,code,obj)=>{res.writeHead(code,{'Content-Type':'application/json'});res.end(JSON.stringify(obj));};const server=http.createServer((req,res)=>{if(req.url==='/health'){return send(res,200,{success:true,service:'payment-service',status:'ok'});}if(req.url==='/openapi.json'){return send(res,200,{openapi:'3.0.3',info:{title:'Payment Service API',version:'v1'}});}if(req.url==='/docs'){res.writeHead(200,{'Content-Type':'text/html'});return res.end('<h1>Payment Service Docs Placeholder</h1>');}return send(res,404,{success:false,error:{message:'Not found'}});});server.listen(p);\""
+      SERVICE_NAME: payment-service
+      RABBITMQ_EXCHANGE: dam.domain.events.v1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     expose:
       - '${PAYMENT_SERVICE_PORT}'
     networks:
       - app-net
 
   notification-service:
-    image: node:20-alpine
+    build:
+      context: ./services/notification-service
+      dockerfile: Dockerfile
     container_name: dam-notification-service
     environment:
       SERVICE_PORT: ${NOTIFICATION_SERVICE_PORT}
       DB_URL: ${NOTIFICATION_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
-    command: >
-      sh -c "node -e \"const http=require('http');const p=Number(process.env.SERVICE_PORT||3007);const send=(res,code,obj)=>{res.writeHead(code,{'Content-Type':'application/json'});res.end(JSON.stringify(obj));};const server=http.createServer((req,res)=>{if(req.url==='/health'){return send(res,200,{success:true,service:'notification-service',status:'ok'});}if(req.url==='/openapi.json'){return send(res,200,{openapi:'3.0.3',info:{title:'Notification Service API',version:'v1'}});}if(req.url==='/docs'){res.writeHead(200,{'Content-Type':'text/html'});return res.end('<h1>Notification Service Docs Placeholder</h1>');}return send(res,404,{success:false,error:{message:'Not found'}});});server.listen(p);\""
+      SERVICE_NAME: notification-service
+      RABBITMQ_EXCHANGE: dam.domain.events.v1
+      RABBITMQ_QUEUE: dam.notification-service.v1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     expose:
       - '${NOTIFICATION_SERVICE_PORT}'
     networks:
@@ -153,6 +208,9 @@ services:
       DB_URL: ${AUDIT_LOG_DB_URL}
       RABBITMQ_URL: ${RABBITMQ_URL}
       JWT_SECRET: ${JWT_SECRET}
+      SERVICE_NAME: audit-log-service
+      RABBITMQ_EXCHANGE: dam.domain.events.v1
+      RABBITMQ_QUEUE: dam.audit-log-service.v1
     depends_on:
       postgres:
         condition: service_healthy

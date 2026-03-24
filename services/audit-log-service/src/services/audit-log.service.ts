@@ -1,7 +1,26 @@
-import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma';
 import { NormalizedAuditEvent } from '../types/event';
 import { AuditLogQuery, buildAuditWhere, parseLimit } from '../utils/query';
+
+type PrismaKnownRequestErrorLike = {
+  code?: string;
+  meta?: { target?: unknown };
+};
+
+function isUniqueConstraintError(error: unknown): boolean {
+  const known = error as PrismaKnownRequestErrorLike;
+
+  if (known.code !== 'P2002') {
+    return false;
+  }
+
+  if (!Array.isArray(known.meta?.target)) {
+    return true;
+  }
+
+  const target = known.meta.target as string[];
+  return target.includes('event_id') || target.includes('eventId');
+}
 
 export async function saveAuditLog(normalizedEvent: NormalizedAuditEvent): Promise<boolean> {
   try {
@@ -22,18 +41,7 @@ export async function saveAuditLog(normalizedEvent: NormalizedAuditEvent): Promi
 
     return true;
   } catch (error) {
-    const known = error as Prisma.PrismaClientKnownRequestError & {
-      meta?: { target?: unknown };
-    };
-
-    if (known.code === 'P2002' && Array.isArray(known.meta?.target)) {
-      const target = known.meta.target as string[];
-      if (target.includes('event_id')) {
-        return false;
-      }
-    }
-
-    if (known.code === 'P2002') {
+    if (isUniqueConstraintError(error)) {
       return false;
     }
 

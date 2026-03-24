@@ -4,9 +4,9 @@
   "description": "Distributed Art Marketplace monorepo",
   "main": "index.js",
   "scripts": {
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
+    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint .",
     "format": "prettier --check .",
-    "smoke:local": "bash scripts/smoke-local.sh",
+    "smoke:local": "node scripts/smoke-local.mjs",
     "compose:up": "docker compose up -d --build",
     "compose:down": "docker compose down"
   },
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/PhucHuwu/Distributed-art-marketplace#readme",
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "lint-staged": "^16.4.0",

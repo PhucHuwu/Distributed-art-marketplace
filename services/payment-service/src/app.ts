@@ -7,7 +7,7 @@ import { requestContext } from './middlewares/request-context';
 import { createHealthRouter } from './routes/health.route';
 import { createPaymentRouter } from './routes/payment.route';
 
-export function createApp(serviceName: string, publisher: PaymentPublisher) {
+export function createApp(serviceName: string, jwtSecret: string, publisher: PaymentPublisher) {
   const app = express();
 
   app.use(express.json({ limit: '1mb' }));
@@ -21,7 +21,7 @@ export function createApp(serviceName: string, publisher: PaymentPublisher) {
 
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec));
 
-  app.use(createPaymentRouter(publisher));
+  app.use(createPaymentRouter({ publisher, jwtSecret }));
 
   app.use(errorHandler);
 

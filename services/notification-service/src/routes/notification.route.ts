@@ -1,10 +1,13 @@
-import { Router } from 'express';
+import { RequestHandler, Router } from 'express';
 import { NotificationConsumer } from '../types/consumer';
 import { EventEnvelopeV1 } from '../types/event';
 import { HttpError } from '../utils/http-error';
 import { RequestWithCorrelationId } from '../types/http';
 
-export function createNotificationRouter(consumer: NotificationConsumer): Router {
+export function createNotificationRouter(
+  consumer: NotificationConsumer,
+  adminAuthMiddleware: RequestHandler,
+): Router {
   const router = Router();
 
   router.get('/notifications/stats', (_req, res) => {
@@ -14,7 +17,7 @@ export function createNotificationRouter(consumer: NotificationConsumer): Router
     });
   });
 
-  router.post('/notifications/debug/emit', async (req: RequestWithCorrelationId, res, next) => {
+  router.post('/notifications/debug/emit', adminAuthMiddleware, async (req: RequestWithCorrelationId, res, next) => {
     try {
       const envelope = req.body as EventEnvelopeV1;
       if (!envelope || typeof envelope !== 'object') {

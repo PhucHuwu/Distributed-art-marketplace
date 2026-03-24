@@ -31,7 +31,7 @@ async function bootstrap(): Promise<void> {
     consumer,
   );
 
-  const app = createApp(config.serviceName, consumer);
+  const app = createApp(config.serviceName, config.jwtSecret, consumer);
 
   app.listen(config.servicePort, () => {
     logger.info({ servicePort: config.servicePort }, 'Notification service started');
