@@ -1,31 +1,27 @@
 {
   "name": "distributed-art-marketplace",
   "version": "1.0.0",
-  "description": "Hệ Thống Web Bán Tranh Việt Nam (Hệ Thống Phân Tán)",
-  "private": true,
-  "workspaces": [
-    "frontend",
-    "services/*"
-  ],
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "prepare": "husky install",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "lint-staged": "lint-staged"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhucHuwu/Distributed-art-marketplace.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PhucHuwu/Distributed-art-marketplace/issues"
+  },
+  "homepage": "https://github.com/PhucHuwu/Distributed-art-marketplace#readme",
   "devDependencies": {
-    "eslint": "^8.52.0",
-    "eslint-config-prettier": "^9.0.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
-    "prettier": "^3.1.0"
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "**/*.{json,md}": [
-      "prettier --write"
-    ]
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1"
   }
 }
