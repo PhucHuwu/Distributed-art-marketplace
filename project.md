@@ -7,9 +7,10 @@
 
 ## 2. Kiến trúc & Công nghệ (Tech Stack)
 
+- **Ngôn ngữ lập trình:** TypeScript.
 - **Frontend:** Next.js (Phù hợp cho SEO và render linh hoạt SSR/SSG).
 - **Backend (Microservices):** Node.js.
-- **Cơ sở dữ liệu:** PostgreSQL (Sử dụng chung một instance DB nhưng **chia Schema riêng biệt** cho mỗi microservice).
+- **Cơ sở dữ liệu:** PostgreSQL (Sử dụng chung một instance DB nhưng **chia Schema riêng biệt** cho mỗi microservice, sử dụng **Prisma ORM** để thiết kế và tạo schema).
 - **Message Broker:** RabbitMQ.
 - **API Gateway:** NGINX (Điều hướng requests từ client đến đúng service backend).
 - **Xác thực/Phân quyền:** JWT (JSON Web Tokens).
@@ -55,4 +56,4 @@ Dự án được tổ chức theo cấu trúc thư mục chứa các vi dịch 
 - `/services/notification-service` (Node.js)
 - `/services/audit-log-service` (Node.js - Dành cho Admin/Logs)
 - `/gateway` (Cấu hình NGINX)
-- `/infra` (Chứa `docker-compose.yml` và scripts khởi tạo DB schema chung)
+- `/infra` (Chứa `docker-compose.yml` và Prisma files để khởi tạo DB schema chung)

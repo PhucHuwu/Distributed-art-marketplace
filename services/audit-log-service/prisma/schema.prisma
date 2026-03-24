@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model EventLog {
+  id            String   @id @default(uuid()) @db.Uuid
+  eventId       String   @unique @map("event_id")
+  eventType     String   @map("event_type")
+  serviceName   String   @map("service_name")
+  aggregateId   String?  @map("aggregate_id")
+  orderId       String?  @map("order_id")
+  userId        String?  @map("user_id")
+  payload       Json
+  occurredAt    DateTime @map("occurred_at")
+  receivedAt    DateTime @default(now()) @map("received_at")
+  correlationId String   @map("correlation_id")
+  version       String
+
+  @@index([userId], map: "idx_event_logs_user_id")
+  @@index([orderId], map: "idx_event_logs_order_id")
+  @@index([serviceName], map: "idx_event_logs_service_name")
+  @@index([eventType], map: "idx_event_logs_event_type")
+  @@index([occurredAt], map: "idx_event_logs_occurred_at")
+  @@map("event_logs")
+}
