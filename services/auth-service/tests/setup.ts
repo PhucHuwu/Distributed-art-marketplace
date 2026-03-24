@@ -1,0 +1,9 @@
+process.env.NODE_ENV = 'test';
+process.env.PORT = '4001';
+process.env.DB_URL = 'postgres://postgres:postgres@localhost:5432/auth_test';
+process.env.JWT_SECRET = 'testsecretkeytestsecretkeytestsecretkey';
+process.env.JWT_EXPIRES_IN = '15m';
+process.env.BCRYPT_ROUNDS = '8';
+process.env.JWT_ISSUER = 'auth-service';
+process.env.JWT_AUDIENCE = 'distributed-art-marketplace';
+process.env.REFRESH_TOKEN_EXPIRES_IN_DAYS = '7';
