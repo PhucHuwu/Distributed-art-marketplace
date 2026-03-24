@@ -86,6 +86,11 @@ docker compose down
 - Notifications: `http://localhost/api/notifications/*`
 - Admin audit: `http://localhost/api/admin/audit-logs/*`
 
+Frontend CORS for local development is enabled at gateway for:
+
+- `http://localhost:3000`
+- `http://127.0.0.1:3000`
+
 ## Test Commands
 
 - All unit/service tests in monorepo: `npm run test:all`
