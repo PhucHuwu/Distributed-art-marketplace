@@ -6,6 +6,9 @@
   "scripts": {
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint .",
     "format": "prettier --check .",
+    "test:all": "node scripts/test-all.mjs",
+    "e2e:event-flow": "node scripts/e2e-event-flow.mjs",
+    "e2e:compose": "node scripts/e2e-compose.mjs",
     "smoke:local": "node scripts/smoke-local.mjs",
     "compose:up": "docker compose up -d --build",
     "compose:down": "docker compose down"

@@ -63,6 +63,12 @@ docker compose up -d --build
 bash scripts/smoke-local.sh
 ```
 
+Optional full E2E event-flow validation on docker compose (includes migrate + smoke + event-flow):
+
+```bash
+npm run e2e:compose
+```
+
 4. Stop stack when done:
 
 ```bash
@@ -79,6 +85,15 @@ docker compose down
 - Payments: `http://localhost/api/payments/*`
 - Notifications: `http://localhost/api/notifications/*`
 - Admin audit: `http://localhost/api/admin/audit-logs/*`
+
+## Test Commands
+
+- All unit/service tests in monorepo: `npm run test:all`
+- Gateway smoke checks only: `npm run smoke:local`
+- Event-driven E2E flow against running stack: `npm run e2e:event-flow`
+- Full docker-compose E2E pipeline (boot, migrate, smoke, event-flow, teardown): `npm run e2e:compose`
+
+Set `E2E_KEEP_STACK=true` to keep containers running after `npm run e2e:compose`.
 
 ## Core Docs
 
