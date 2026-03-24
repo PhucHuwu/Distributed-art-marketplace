@@ -8,6 +8,9 @@ export type EnvConfig = {
   serviceName: string;
   jwtExpiresIn: string;
   bcryptRounds: number;
+  autoSeedAdmin: boolean;
+  adminSeedEmail: string;
+  adminSeedPassword: string;
 };
 
 export function getEnvConfig(): EnvConfig {
@@ -24,5 +27,8 @@ export function getEnvConfig(): EnvConfig {
     serviceName: String(process.env.SERVICE_NAME),
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || '1h',
     bcryptRounds: Number(process.env.BCRYPT_ROUNDS || 10),
+    autoSeedAdmin: process.env.AUTO_SEED_ADMIN !== 'false',
+    adminSeedEmail: (process.env.ADMIN_SEED_EMAIL || 'admin@local.dev').toLowerCase(),
+    adminSeedPassword: process.env.ADMIN_SEED_PASSWORD || 'Admin@123456',
   };
 }

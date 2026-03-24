@@ -13,36 +13,36 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] F1 - Initialize Next.js TypeScript app structure and shared coding conventions.
-- [ ] F2 - Setup environment config (`NEXT_PUBLIC_API_BASE_URL`) and API client wrapper.
-- [ ] F3 - Implement auth module: register, login, logout, verify session.
-- [ ] F4 - Implement route guards and token handling for protected pages.
-- [ ] F5 - Build catalog listing page with search, filters, and pagination.
-- [ ] F6 - Build artwork detail page with gallery, metadata, price, and stock status.
-- [ ] F7 - Implement cart APIs integration: add/update/remove/list cart items.
-- [ ] F8 - Build cart UI with price summary, validation, and clear error messaging.
-- [ ] F9 - Implement address module using user profile APIs (CRUD + default address).
-- [ ] F10 - Build checkout flow to create order with `PENDING` state.
-- [ ] F11 - Implement order status tracking (`PENDING`, `AWAITING_PAYMENT`, `COMPLETED`, `FAILED`, `CANCELLED`).
-- [ ] F12 - Integrate payment creation flow and payment result page.
-- [ ] F13 - Implement polling/refresh strategy for payment and order status synchronization.
-- [ ] F14 - Build profile page and order history pages (`/orders/me`, `/orders/{orderId}`).
-- [ ] F15 - Add reusable loading skeletons, empty states, and global error boundary.
-- [ ] F16 - Add client-side validation and server error mapping for all critical forms.
-- [ ] F17 - Add frontend tests for core flows (auth, catalog, cart, checkout, payment).
-- [ ] F18 - Run end-to-end smoke scenario against local backend stack.
-- [ ] F19 - Update `frontend/README.md` with setup, env, scripts, and integration flow.
+- [x] F1 - Initialize Next.js TypeScript app structure and shared coding conventions.
+- [x] F2 - Setup environment config (`NEXT_PUBLIC_API_BASE_URL`) and API client wrapper.
+- [x] F3 - Implement auth module: register, login, logout, verify session.
+- [x] F4 - Implement route guards and token handling for protected pages.
+- [x] F5 - Build catalog listing page with search, filters, and pagination.
+- [x] F6 - Build artwork detail page with gallery, metadata, price, and stock status.
+- [x] F7 - Implement cart APIs integration: add/update/remove/list cart items.
+- [x] F8 - Build cart UI with price summary, validation, and clear error messaging.
+- [x] F9 - Implement address module using user profile APIs (CRUD + default address).
+- [x] F10 - Build checkout flow to create order with `PENDING` state.
+- [x] F11 - Implement order status tracking (`PENDING`, `AWAITING_PAYMENT`, `COMPLETED`, `FAILED`, `CANCELLED`).
+- [x] F12 - Integrate payment creation flow and payment result page.
+- [x] F13 - Implement polling/refresh strategy for payment and order status synchronization.
+- [x] F14 - Build profile page and order history pages (`/orders/me`, `/orders/{orderId}`).
+- [x] F15 - Add reusable loading skeletons, empty states, and global error boundary.
+- [x] F16 - Add client-side validation and server error mapping for all critical forms.
+- [x] F17 - Add frontend tests for core flows (auth, catalog, cart, checkout, payment).
+- [x] F18 - Run end-to-end smoke scenario against local backend stack.
+- [x] F19 - Update `frontend/README.md` with setup, env, scripts, and integration flow.
 
 ## Backend Coordination Tasks (mandatory)
 
-- [ ] C1 - Align auth contract with `auth-service` owner (`anhlt`): token shape, verify behavior, auth errors.
-- [ ] C2 - Align profile/address contract with `user-profile-service` owner (`anhlt`): payload validation and default address rule.
-- [ ] C3 - Align catalog contract with `catalog-service` owner (`datlt`): list/detail/filter response schema.
-- [ ] C4 - Align stock display contract with `inventory-service` owner (`datlt`): availability and out-of-stock behavior.
-- [ ] C5 - Align cart/order contract with `order-service` owner (`tuanhm`): cart item schema, order creation payload, status transitions.
-- [ ] C6 - Align payment contract with `payment-service` owner (`vubn`): payment states, success/failed handling, retry rules.
-- [ ] C7 - Confirm gateway route mapping and local integration path with root owner (`phucth`).
-- [ ] C8 - Verify API change process: OpenAPI update + team announcement before merge.
+- [x] C1 - Align auth contract with `auth-service` owner (`anhlt`): token shape, verify behavior, auth errors.
+- [x] C2 - Align profile/address contract with `user-profile-service` owner (`anhlt`): payload validation and default address rule.
+- [x] C3 - Align catalog contract with `catalog-service` owner (`datlt`): list/detail/filter response schema.
+- [x] C4 - Align stock display contract with `inventory-service` owner (`datlt`): availability and out-of-stock behavior.
+- [x] C5 - Align cart/order contract with `order-service` owner (`tuanhm`): cart item schema, order creation payload, status transitions.
+- [x] C6 - Align payment contract with `payment-service` owner (`vubn`): payment states, success/failed handling, retry rules.
+- [x] C7 - Confirm gateway route mapping and local integration path with root owner (`phucth`).
+- [x] C8 - Verify API change process: OpenAPI update + team announcement before merge.
 
 ## Acceptance Criteria
 

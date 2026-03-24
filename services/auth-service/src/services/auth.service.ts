@@ -17,3 +17,21 @@ export async function createCredential(input: {
     },
   });
 }
+
+export async function ensureAdminCredential(input: {
+  email: string;
+  passwordHash: string;
+}) {
+  return prisma.credential.upsert({
+    where: { email: input.email.toLowerCase() },
+    update: {
+      role: 'ADMIN',
+      passwordHash: input.passwordHash,
+    },
+    create: {
+      email: input.email.toLowerCase(),
+      passwordHash: input.passwordHash,
+      role: 'ADMIN',
+    },
+  });
+}

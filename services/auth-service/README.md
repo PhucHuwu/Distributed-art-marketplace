@@ -20,12 +20,24 @@ Required keys:
 - `JWT_EXPIRES_IN`
 - `BCRYPT_ROUNDS`
 
+Optional local-dev keys:
+
+- `AUTO_SEED_ADMIN` (default: `true`)
+- `ADMIN_SEED_EMAIL` (default: `admin@local.dev`)
+- `ADMIN_SEED_PASSWORD` (default: `Admin@123456`)
+
 ## Run locally
 
 ```bash
 npm install
+npm run prisma:migrate
 npm run dev
 ```
+
+Admin seed for local development:
+
+- When `AUTO_SEED_ADMIN=true` and `NODE_ENV` is not `production`, service startup ensures one admin credential.
+- You can also run `npm run prisma:seed` manually.
 
 ## Endpoints
 

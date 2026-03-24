@@ -9,7 +9,8 @@
     "build": "tsc -p tsconfig.json",
     "test": "cross-env NODE_ENV=test tsx --test tests/**/*.test.ts",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",
