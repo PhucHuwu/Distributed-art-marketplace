@@ -7,6 +7,7 @@
 
 ## 2. Kiến trúc & Công nghệ (Tech Stack)
 
+- **Ngôn ngữ lập trình:** TypeScript.
 - **Frontend:** Next.js (Phù hợp cho SEO và render linh hoạt SSR/SSG).
 - **Backend (Microservices):** Node.js.
 - **Cơ sở dữ liệu:** PostgreSQL (Sử dụng chung một instance DB nhưng **chia Schema riêng biệt** cho mỗi microservice, sử dụng **Prisma ORM** để thiết kế và tạo schema).

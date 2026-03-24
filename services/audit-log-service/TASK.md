@@ -13,24 +13,24 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] L1 - Initialize service structure and config validation.
-- [ ] L2 - Setup Prisma datasource for schema `audit_logs`.
-- [ ] L3 - Create `event_logs` model and migration.
-- [ ] L4 - Implement RabbitMQ consumer bootstrap for multi-event subscription.
-- [ ] L5 - Subscribe to core events (`order.*`, `inventory.*`, `payment.*`).
-- [ ] L6 - Implement event normalization mapper before persistence.
-- [ ] L7 - Implement idempotency guard by `eventId`.
-- [ ] L8 - Persist logs with `correlationId`, service, aggregate fields.
-- [ ] L9 - Add index strategy for user/order/eventType/time filters.
-- [ ] L10 - Implement `GET /admin/audit-logs` with query filters.
-- [ ] L11 - Implement `GET /admin/audit-logs/{eventId}`.
-- [ ] L12 - Add admin authorization middleware for audit APIs.
-- [ ] L13 - Add `GET /health` endpoint.
-- [ ] L14 - Integrate OpenAPI spec generation for admin audit endpoints.
-- [ ] L15 - Expose Swagger UI route for API testing.
-- [ ] L16 - Add structured logging with `correlationId`.
-- [ ] L17 - Add tests for consume, deduplicate, and query filters.
-- [ ] L18 - Update service README with run, env, subscribed events, endpoints, and Swagger URL.
+- [x] L1 - Initialize service structure and config validation.
+- [x] L2 - Setup Prisma datasource for schema `audit_logs`.
+- [x] L3 - Create `event_logs` model and migration.
+- [x] L4 - Implement RabbitMQ consumer bootstrap for multi-event subscription.
+- [x] L5 - Subscribe to core events (`order.*`, `inventory.*`, `payment.*`).
+- [x] L6 - Implement event normalization mapper before persistence.
+- [x] L7 - Implement idempotency guard by `eventId`.
+- [x] L8 - Persist logs with `correlationId`, service, aggregate fields.
+- [x] L9 - Add index strategy for user/order/eventType/time filters.
+- [x] L10 - Implement `GET /admin/audit-logs` with query filters.
+- [x] L11 - Implement `GET /admin/audit-logs/{eventId}`.
+- [x] L12 - Add admin authorization middleware for audit APIs.
+- [x] L13 - Add `GET /health` endpoint.
+- [x] L14 - Integrate OpenAPI spec generation for admin audit endpoints.
+- [x] L15 - Expose Swagger UI route for API testing.
+- [x] L16 - Add structured logging with `correlationId`.
+- [x] L17 - Add tests for consume, deduplicate, and query filters.
+- [x] L18 - Update service README with run, env, subscribed events, endpoints, and Swagger URL.
 
 ## Acceptance Criteria
 

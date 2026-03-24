@@ -6,20 +6,20 @@
 
 ## Micro Tasks (do in order)
 
-- [ ] R1 - Define final monorepo folder convention and update root docs.
-- [ ] R2 - Create base `docker-compose.yml` services for PostgreSQL and RabbitMQ.
-- [ ] R3 - Add gateway container wiring and upstream placeholders for 8 services.
-- [ ] R4 - Define common env variable naming (`SERVICE_PORT`, `DB_URL`, `RABBITMQ_URL`, `JWT_SECRET`).
-- [ ] R5 - Create `.env.example` files pattern and root setup instructions.
-- [ ] R6 - Define healthcheck convention (`GET /health`) and expected response shape.
-- [ ] R7 - Publish event envelope v1 contract (`eventId`, `eventType`, `occurredAt`, `producer`, `correlationId`, `version`, `payload`).
-- [ ] R8 - Define message broker conventions (exchange/topic naming, retry, DLQ naming).
-- [ ] R9 - Define cross-service API/event naming convention doc.
-- [ ] R10 - Define OpenAPI/Swagger standard for all backend services (route path, auth scheme, tags, response format).
-- [ ] R11 - Ensure each service task includes Swagger UI and OpenAPI JSON deliverable.
-- [ ] R12 - Build local smoke test script/checklist for startup verification.
-- [ ] R13 - Run full local boot test and collect run issues.
-- [ ] R14 - Publish integration checklist for all service owners before PR phase.
+- [x] R1 - Define final monorepo folder convention and update root docs.
+- [x] R2 - Create base `docker-compose.yml` services for PostgreSQL and RabbitMQ.
+- [x] R3 - Add gateway container wiring and upstream placeholders for 8 services.
+- [x] R4 - Define common env variable naming (`SERVICE_PORT`, `DB_URL`, `RABBITMQ_URL`, `JWT_SECRET`).
+- [x] R5 - Create `.env.example` files pattern and root setup instructions.
+- [x] R6 - Define healthcheck convention (`GET /health`) and expected response shape.
+- [x] R7 - Publish event envelope v1 contract (`eventId`, `eventType`, `occurredAt`, `producer`, `correlationId`, `version`, `payload`).
+- [x] R8 - Define message broker conventions (exchange/topic naming, retry, DLQ naming).
+- [x] R9 - Define cross-service API/event naming convention doc.
+- [x] R10 - Define OpenAPI/Swagger standard for all backend services (route path, auth scheme, tags, response format).
+- [x] R11 - Ensure each service task includes Swagger UI and OpenAPI JSON deliverable.
+- [x] R12 - Build local smoke test script/checklist for startup verification.
+- [ ] R13 - Run full local boot test and collect run issues. (Blocked: local Docker daemon unavailable, see `infra/docs/BOOT_TEST_REPORT.md`)
+- [x] R14 - Publish integration checklist for all service owners before PR phase.
 
 ## Acceptance Criteria
 
