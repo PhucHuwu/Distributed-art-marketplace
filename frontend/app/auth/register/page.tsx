@@ -1,0 +1,201 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useAuth } from '@/context/auth-context';
+import { isApiError } from '@/lib/http';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { InlineError } from '@/components/ui-states';
+import { Check } from 'lucide-react';
+
+const schema = z
+  .object({
+    email: z.string().email('Enter a valid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    confirmPassword: z.string(),
+  })
+  .refine((d) => d.password === d.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
+
+type FormValues = z.infer<typeof schema>;
+
+const BENEFITS = [
+  'Access to exclusive artworks',
+  'Curated recommendations',
+  'Secure transactions',
+  'Worldwide shipping',
+];
+
+export default function RegisterPage() {
+  const { register: registerUser } = useAuth();
+  const router = useRouter();
+  const [apiError, setApiError] = useState<{
+    message: string;
+    correlationId?: string | null;
+  } | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+
+  const onSubmit = async (data: FormValues) => {
+    setApiError(null);
+    try {
+      await registerUser(data.email, data.password);
+      router.replace('/');
+    } catch (err) {
+      if (isApiError(err)) {
+        setApiError({ message: err.message, correlationId: err.correlationId });
+      } else {
+        setApiError({ message: 'Registration failed. Please try again.' });
+      }
+    }
+  };
+
+  return (
+    <div className="min-h-[85vh] flex">
+      {/* Left side - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 order-2 lg:order-1">
+        <div className="w-full max-w-md fade-in">
+          <div className="mb-10">
+            <Link href="/" className="lg:hidden inline-flex items-center gap-3 mb-8">
+              <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold">
+                A
+              </span>
+              <span className="font-serif text-2xl tracking-tight">Artistry</span>
+            </Link>
+            <h1 className="text-3xl md:text-4xl font-serif font-medium text-foreground">
+              Create account
+            </h1>
+            <p className="text-muted-foreground mt-3">Join our community of art collectors</p>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="email" className="text-sm font-medium">
+                Email address
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                autoComplete="email"
+                placeholder="you@example.com"
+                className="h-12"
+                {...register('email')}
+                aria-invalid={!!errors.email}
+              />
+              {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="password" className="text-sm font-medium">
+                Password
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                autoComplete="new-password"
+                placeholder="Min. 8 characters"
+                className="h-12"
+                {...register('password')}
+                aria-invalid={!!errors.password}
+              />
+              {errors.password && (
+                <p className="text-xs text-destructive">{errors.password.message}</p>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">
+                Confirm password
+              </Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                placeholder="Repeat your password"
+                className="h-12"
+                {...register('confirmPassword')}
+                aria-invalid={!!errors.confirmPassword}
+              />
+              {errors.confirmPassword && (
+                <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+
+            {apiError && (
+              <InlineError message={apiError.message} correlationId={apiError.correlationId} />
+            )}
+
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full h-12 text-base tracking-wide btn-premium"
+            >
+              {isSubmitting ? 'Creating account...' : 'Create account'}
+            </Button>
+          </form>
+
+          <p className="text-center text-muted-foreground mt-8">
+            Already have an account?{' '}
+            <Link
+              href="/auth/login"
+              className="text-foreground font-medium hover:text-accent transition-colors link-underline"
+            >
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </div>
+
+      {/* Right side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-foreground text-background relative overflow-hidden order-1 lg:order-2">
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
+        <div className="relative z-10 flex flex-col justify-center p-16">
+          <Link href="/" className="inline-flex items-center gap-3 mb-12">
+            <span className="w-12 h-12 flex items-center justify-center bg-background text-foreground font-serif text-xl font-semibold">
+              A
+            </span>
+            <span className="font-serif text-3xl tracking-tight">Artistry</span>
+          </Link>
+          <h2 className="text-4xl font-serif font-medium leading-tight mb-6">
+            Start your art
+            <br />
+            collection today
+          </h2>
+          <p className="text-background/70 text-lg leading-relaxed max-w-md mb-10">
+            Join thousands of collectors discovering exceptional artworks from visionary artists
+            worldwide.
+          </p>
+
+          {/* Benefits list */}
+          <ul className="space-y-4">
+            {BENEFITS.map((benefit) => (
+              <li key={benefit} className="flex items-center gap-3">
+                <span className="w-6 h-6 rounded-full bg-background/10 flex items-center justify-center">
+                  <Check className="w-3.5 h-3.5" />
+                </span>
+                <span className="text-background/90">{benefit}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}

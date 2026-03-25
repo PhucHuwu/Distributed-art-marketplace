@@ -4,8 +4,7 @@ Distributed Art Marketplace is a backend-first, event-driven microservices syste
 
 ## Phase Scope
 
-- Current phase: backend foundation and service contracts.
-- Frontend implementation is out of scope in this phase.
+- Current phase: backend foundation + integrated storefront frontend.
 - Architecture: Node.js microservices + PostgreSQL (multi-schema) + RabbitMQ + NGINX gateway + JWT.
 
 ## Monorepo Structure
@@ -13,7 +12,7 @@ Distributed Art Marketplace is a backend-first, event-driven microservices syste
 - [`gateway/`](gateway/): NGINX routing for all backend services.
 - [`infra/`](infra/): infrastructure assets and shared conventions.
 - [`services/`](services/): domain microservices.
-- [`frontend/`](frontend/): reserved for Next.js app in a later phase.
+- [`frontend/`](frontend/): Next.js storefront app integrated via gateway.
 
 ## Services and Schema Ownership
 
@@ -74,6 +73,18 @@ npm run e2e:compose
 ```bash
 docker compose down
 ```
+
+## Frontend Local Run
+
+Run in `frontend/`:
+
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Frontend local URL: `http://localhost:3000`.
 
 ## Gateway Local Routes
 

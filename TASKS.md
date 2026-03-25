@@ -6,7 +6,7 @@
 - Rule: one service has exactly one owner to avoid direct code conflict.
 - Rule: each dev works only on their branch; PR target branch is `develop`.
 - Rule: root/shared files are coordinated by leader to avoid cross-service conflict.
-- Rule: current phase is backend-only. No frontend implementation in this phase.
+- Rule: current phase includes backend services and integrated storefront frontend replacement.
 
 ## ROOT task (Leader)
 
@@ -149,6 +149,21 @@
 - Acceptance criteria:
   - Major system events are traceable end-to-end.
   - Query API supports incident investigation needs.
+
+### FE-02 - Frontend Replacement
+
+- Owner: `tuanhm`
+- Branch: `tuanhm`
+- Path: `frontend`
+- Goals:
+  - Replace legacy storefront with new frontend implementation.
+  - Preserve required route set and backend integration contract from functional spec.
+  - Keep auth/session behavior, order/payment lifecycle polling, and error handling with `correlationId`.
+  - Update frontend docs/runbook for single official frontend path.
+- Acceptance criteria:
+  - `frontend` build and lint pass.
+  - Route/API behavior matches `frontend/frontend-functional-spec.md`.
+  - Legacy frontend is archived safely (`frontend-legacy`) for rollback.
 
 ## Mandatory notes for every task
 
