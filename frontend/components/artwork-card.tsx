@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { CatalogArtwork } from '@/lib/types';
 
 function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency }).format(price);
 }
 
 export function ArtworkCard({ artwork }: { artwork: CatalogArtwork }) {
@@ -29,14 +29,14 @@ export function ArtworkCard({ artwork }: { artwork: CatalogArtwork }) {
           </>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
-            No image
+              Chưa có ảnh
           </div>
         )}
 
         {/* Quick view indicator */}
         <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="inline-block px-4 py-2 bg-background/95 backdrop-blur-sm text-foreground text-xs uppercase tracking-wider font-medium">
-            View Details
+             Xem chi tiết
           </span>
         </div>
       </div>

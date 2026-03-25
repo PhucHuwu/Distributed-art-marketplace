@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { LoadingSpinner, ErrorState, InlineError } from '@/components/ui-states';
 
 function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency }).format(price);
 }
 
 export default function ArtworkDetailPage() {
@@ -51,7 +51,7 @@ export default function ArtworkDetailPage() {
       if (isApiError(err)) {
         setError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setError({ message: 'Failed to load artwork.' });
+        setError({ message: 'Không thể tải thông tin tác phẩm.' });
       }
     } finally {
       setLoading(false);
@@ -79,7 +79,7 @@ export default function ArtworkDetailPage() {
       if (isApiError(err)) {
         setCartError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setCartError({ message: 'Could not add to cart. Please try again.' });
+        setCartError({ message: 'Không thể thêm vào giỏ hàng. Vui lòng thử lại.' });
       }
     } finally {
       setAddingToCart(false);
@@ -122,7 +122,7 @@ export default function ArtworkDetailPage() {
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          Back to Collection
+          Quay về bộ sưu tập
         </Link>
       </div>
 
@@ -143,7 +143,7 @@ export default function ArtworkDetailPage() {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                    No image available
+                    Chưa có hình ảnh
                   </div>
                 )}
               </div>
@@ -176,7 +176,7 @@ export default function ArtworkDetailPage() {
               </h1>
               {artwork.artist && (
                 <p className="text-muted-foreground mt-4 text-lg">
-                  by <span className="text-foreground font-medium">{artwork.artist.name}</span>
+                   bởi <span className="text-foreground font-medium">{artwork.artist.name}</span>
                 </p>
               )}
             </div>
@@ -189,9 +189,9 @@ export default function ArtworkDetailPage() {
               {inventory && (
                 <p className="text-sm text-muted-foreground mt-2">
                   {outOfStock ? (
-                    <span className="text-destructive font-medium">Currently unavailable</span>
+                     <span className="text-destructive font-medium">Hiện đã hết hàng</span>
                   ) : (
-                    <span className="text-accent">{available} available</span>
+                     <span className="text-accent">Còn {available} sản phẩm</span>
                   )}
                 </p>
               )}
@@ -201,7 +201,7 @@ export default function ArtworkDetailPage() {
             {artwork.description && (
               <div>
                 <h3 className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-medium mb-3">
-                  About This Piece
+                   Giới thiệu tác phẩm
                 </h3>
                 <p className="text-foreground/80 leading-relaxed">{artwork.description}</p>
               </div>
@@ -211,13 +211,13 @@ export default function ArtworkDetailPage() {
             {!outOfStock && (
               <div className="flex items-center gap-6">
                 <span className="text-sm font-medium text-foreground uppercase tracking-wide">
-                  Quantity
+                   Số lượng
                 </span>
                 <div className="flex items-center border border-border">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     className="px-4 py-3 hover:bg-secondary transition-colors"
-                    aria-label="Decrease quantity"
+                    aria-label="Giảm số lượng"
                   >
                     <Minus className="w-4 h-4" />
                   </button>
@@ -229,7 +229,7 @@ export default function ArtworkDetailPage() {
                       setQuantity((q) => (available ? Math.min(available, q + 1) : q + 1))
                     }
                     className="px-4 py-3 hover:bg-secondary transition-colors"
-                    aria-label="Increase quantity"
+                      aria-label="Tăng số lượng"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -245,7 +245,7 @@ export default function ArtworkDetailPage() {
             {cartSuccess && (
               <div className="flex items-center gap-3 rounded-md bg-accent/10 border border-accent/20 p-4 text-accent">
                 <Check className="w-5 h-5" />
-                <span className="font-medium">Added to cart successfully!</span>
+                 <span className="font-medium">Đã thêm vào giỏ hàng thành công!</span>
               </div>
             )}
 
@@ -257,18 +257,18 @@ export default function ArtworkDetailPage() {
               className="w-full h-14 text-base tracking-wide btn-premium"
             >
               <ShoppingCart className="w-5 h-5 mr-3" />
-              {outOfStock ? 'Out of Stock' : addingToCart ? 'Adding to Cart...' : 'Add to Cart'}
+              {outOfStock ? 'Hết hàng' : addingToCart ? 'Đang thêm vào giỏ...' : 'Thêm vào giỏ'}
             </Button>
 
             {/* Additional info */}
             <div className="pt-6 border-t border-border grid grid-cols-2 gap-6 text-sm">
               <div>
-                <p className="text-muted-foreground mb-1">Shipping</p>
-                <p className="text-foreground font-medium">Free worldwide delivery</p>
+                 <p className="text-muted-foreground mb-1">Vận chuyển</p>
+                 <p className="text-foreground font-medium">Miễn phí giao hàng toàn quốc</p>
               </div>
               <div>
-                <p className="text-muted-foreground mb-1">Returns</p>
-                <p className="text-foreground font-medium">14-day return policy</p>
+                 <p className="text-muted-foreground mb-1">Đổi trả</p>
+                 <p className="text-foreground font-medium">Chính sách đổi trả trong 14 ngày</p>
               </div>
             </div>
           </div>

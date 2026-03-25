@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { LoadingSpinner, EmptyState, ErrorState } from '@/components/ui-states';
 
 function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency }).format(price);
 }
 
 function computeCartTotal(cart: Cart | null): number {
@@ -40,7 +40,7 @@ function CartContent() {
       if (isApiError(err)) {
         setError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setError({ message: 'Failed to load cart.' });
+        setError({ message: 'Không thể tải giỏ hàng.' });
       }
     } finally {
       setLoading(false);
@@ -102,12 +102,12 @@ function CartContent() {
     return (
       <div className="py-20">
         <EmptyState
-          title="Your cart is empty"
-          description="Browse our collection and add artworks you love."
+          title="Giỏ hàng của bạn đang trống"
+          description="Hãy khám phá bộ sưu tập và thêm những tác phẩm bạn yêu thích."
           action={
             <Link href="/">
               <Button size="lg" className="mt-4">
-                Explore Collection
+                Khám phá bộ sưu tập
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </Link>
@@ -122,10 +122,10 @@ function CartContent() {
       {/* Items */}
       <div className="lg:col-span-2 fade-in">
         <div className="border-b border-border pb-4 mb-6 hidden md:grid md:grid-cols-12 text-xs uppercase tracking-wider text-muted-foreground font-medium">
-          <div className="col-span-6">Product</div>
-          <div className="col-span-2 text-center">Quantity</div>
-          <div className="col-span-2 text-right">Price</div>
-          <div className="col-span-2 text-right">Total</div>
+          <div className="col-span-6">Sản phẩm</div>
+          <div className="col-span-2 text-center">Số lượng</div>
+          <div className="col-span-2 text-right">Đơn giá</div>
+          <div className="col-span-2 text-right">Thành tiền</div>
         </div>
 
         <div className="flex flex-col divide-y divide-border">
@@ -140,12 +140,12 @@ function CartContent() {
                 <div className="md:col-span-6 flex gap-5">
                   <div className="relative w-24 h-28 shrink-0 gallery-frame bg-secondary">
                     <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">
-                      Artwork
+                      Tác phẩm
                     </div>
                   </div>
                   <div className="flex flex-col gap-1 min-w-0">
                     <h3 className="font-serif text-lg font-medium text-foreground line-clamp-2 leading-snug">
-                      Artwork #{item.artworkId.slice(0, 8)}
+                      Tác phẩm #{item.artworkId.slice(0, 8)}
                     </h3>
                     <p className="text-sm text-muted-foreground md:hidden">
                       {formatPrice(Number(item.unitPrice), currency)}
@@ -156,7 +156,7 @@ function CartContent() {
                       className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-destructive transition-colors mt-auto w-fit disabled:opacity-40"
                     >
                       <X className="w-3.5 h-3.5" />
-                      Remove
+                      Xóa
                     </button>
                   </div>
                 </div>
@@ -168,7 +168,7 @@ function CartContent() {
                       onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                       disabled={busy || item.quantity <= 1}
                       className="px-3 py-2 hover:bg-secondary disabled:opacity-40 transition-colors"
-                      aria-label="Decrease"
+                      aria-label="Giảm số lượng"
                     >
                       <Minus className="w-3 h-3" />
                     </button>
@@ -179,7 +179,7 @@ function CartContent() {
                       onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                       disabled={busy}
                       className="px-3 py-2 hover:bg-secondary disabled:opacity-40 transition-colors"
-                      aria-label="Increase"
+                      aria-label="Tăng số lượng"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -208,7 +208,7 @@ function CartContent() {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
           >
             <ArrowRight className="w-4 h-4 rotate-180 transition-transform group-hover:-translate-x-1" />
-            Continue Shopping
+            Tiếp tục mua sắm
           </Link>
         </div>
       </div>
@@ -216,18 +216,18 @@ function CartContent() {
       {/* Summary */}
       <div className="lg:col-span-1 fade-in">
         <div className="bg-secondary/50 p-8 sticky top-24">
-          <h2 className="font-serif text-xl font-medium text-foreground mb-6">Order Summary</h2>
+          <h2 className="font-serif text-xl font-medium text-foreground mb-6">Tóm tắt đơn hàng</h2>
 
           <div className="flex flex-col gap-4 text-sm border-b border-border pb-6 mb-6">
             <div className="flex justify-between text-muted-foreground">
               <span>
-                Subtotal ({items.length} {items.length === 1 ? 'item' : 'items'})
+                Tạm tính ({items.length} {items.length === 1 ? 'sản phẩm' : 'sản phẩm'})
               </span>
               <span className="text-foreground">{formatPrice(total, currency)}</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
-              <span>Shipping</span>
-              <span className="text-accent">Free</span>
+              <span>Phí vận chuyển</span>
+              <span className="text-accent">Miễn phí</span>
             </div>
           </div>
 
@@ -239,12 +239,12 @@ function CartContent() {
           <Link href="/checkout">
             <Button className="w-full h-12 text-base tracking-wide btn-premium">
               <ShoppingBag className="w-4 h-4 mr-2" />
-              Checkout
+              Thanh toán
             </Button>
           </Link>
 
           <p className="text-xs text-muted-foreground text-center mt-4">
-            Taxes calculated at checkout
+            Thuế và phí được tính ở bước thanh toán
           </p>
         </div>
       </div>
@@ -257,8 +257,8 @@ export default function CartPage() {
     <RouteGuard>
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         <div className="mb-10">
-          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Your Selection</p>
-          <h1 className="text-4xl font-serif font-medium text-foreground">Shopping Cart</h1>
+          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Lựa chọn của bạn</p>
+          <h1 className="text-4xl font-serif font-medium text-foreground">Giỏ hàng</h1>
         </div>
         <CartContent />
       </div>

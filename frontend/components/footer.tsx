@@ -10,47 +10,47 @@ export function Footer() {
           <div className="md:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 mb-4">
               <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold">
-                A
+                H
               </span>
-              <span className="font-serif text-2xl tracking-tight">Artistry</span>
+              <span className="font-serif text-2xl tracking-tight">Hồn Tranh Việt</span>
             </Link>
             <p className="text-muted-foreground leading-relaxed max-w-sm mt-4">
-              Curating exceptional artworks from visionary artists worldwide. Every piece tells a
-              story, every collection inspires.
+              Tuyển chọn tác phẩm nghệ thuật chất lượng từ các hoạ sĩ tài năng. Mỗi bức tranh là
+              một câu chuyện, mỗi bộ sưu tập là một nguồn cảm hứng.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="font-serif text-lg mb-4">Explore</h4>
+            <h4 className="font-serif text-lg mb-4">Khám phá</h4>
             <nav className="flex flex-col gap-3">
               <Link
                 href="/"
                 className="text-muted-foreground hover:text-foreground transition-colors link-underline inline-block w-fit"
               >
-                Collection
+                Bộ sưu tập
               </Link>
               <Link
                 href="/orders/me"
                 className="text-muted-foreground hover:text-foreground transition-colors link-underline inline-block w-fit"
               >
-                My Orders
+                Đơn hàng của tôi
               </Link>
               <Link
                 href="/profile"
                 className="text-muted-foreground hover:text-foreground transition-colors link-underline inline-block w-fit"
               >
-                Profile
+                Hồ sơ
               </Link>
             </nav>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-serif text-lg mb-4">Contact</h4>
+            <h4 className="font-serif text-lg mb-4">Liên hệ</h4>
             <div className="flex flex-col gap-3 text-muted-foreground">
-              <p>support@artistry.com</p>
-              <p>+1 (555) 123-4567</p>
+              <p>support@hontranhviet.vn</p>
+              <p>+84 28 1234 5678</p>
               <div className="flex items-center gap-4 mt-2">
                 <a
                   href="#"
@@ -87,14 +87,14 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} Artistry. All rights reserved.
-          </p>
+             &copy; {new Date().getFullYear()} Hồn Tranh Việt. Đã đăng ký mọi quyền.
+           </p>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link href="#" className="hover:text-foreground transition-colors">
-              Privacy Policy
+              Chính sách bảo mật
             </Link>
             <Link href="#" className="hover:text-foreground transition-colors">
-              Terms of Service
+              Điều khoản sử dụng
             </Link>
           </div>
         </div>

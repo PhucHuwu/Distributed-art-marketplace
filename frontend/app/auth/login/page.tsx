@@ -14,8 +14,8 @@ import { Label } from '@/components/ui/label';
 import { InlineError } from '@/components/ui-states';
 
 const schema = z.object({
-  email: z.string().email('Enter a valid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  email: z.string().email('Vui lòng nhập email hợp lệ'),
+  password: z.string().min(8, 'Mật khẩu phải có ít nhất 8 ký tự'),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -46,7 +46,7 @@ export default function LoginPage() {
       if (isApiError(err)) {
         setApiError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setApiError({ message: 'Login failed. Please try again.' });
+        setApiError({ message: 'Đăng nhập thất bại. Vui lòng thử lại.' });
       }
     }
   };
@@ -66,15 +66,15 @@ export default function LoginPage() {
             <span className="w-12 h-12 flex items-center justify-center bg-background text-foreground font-serif text-xl font-semibold">
               A
             </span>
-            <span className="font-serif text-3xl tracking-tight">Artistry</span>
+            <span className="font-serif text-3xl tracking-tight">Hồn Tranh Việt</span>
           </Link>
           <h2 className="text-4xl font-serif font-medium leading-tight mb-6">
-            Welcome back to
+            Chào mừng bạn quay lại
             <br />
-            your art collection
+            với bộ sưu tập của bạn
           </h2>
           <p className="text-background/70 text-lg leading-relaxed max-w-md">
-            Sign in to continue exploring exceptional artworks and managing your collection.
+            Đăng nhập để tiếp tục khám phá tác phẩm nghệ thuật và quản lý bộ sưu tập của bạn.
           </p>
         </div>
       </div>
@@ -87,18 +87,18 @@ export default function LoginPage() {
               <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold">
                 A
               </span>
-              <span className="font-serif text-2xl tracking-tight">Artistry</span>
+              <span className="font-serif text-2xl tracking-tight">Hồn Tranh Việt</span>
             </Link>
-            <h1 className="text-3xl md:text-4xl font-serif font-medium text-foreground">Sign in</h1>
+            <h1 className="text-3xl md:text-4xl font-serif font-medium text-foreground">Đăng nhập</h1>
             <p className="text-muted-foreground mt-3">
-              Enter your credentials to access your account
+              Nhập thông tin để truy cập tài khoản của bạn
             </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-sm font-medium">
-                Email address
+                Địa chỉ email
               </Label>
               <Input
                 id="email"
@@ -114,13 +114,13 @@ export default function LoginPage() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="password" className="text-sm font-medium">
-                Password
+                Mật khẩu
               </Label>
               <Input
                 id="password"
                 type="password"
                 autoComplete="current-password"
-                placeholder="Enter your password"
+                placeholder="Nhập mật khẩu"
                 className="h-12"
                 {...register('password')}
                 aria-invalid={!!errors.password}
@@ -139,17 +139,17 @@ export default function LoginPage() {
               disabled={isSubmitting}
               className="w-full h-12 text-base tracking-wide btn-premium"
             >
-              {isSubmitting ? 'Signing in...' : 'Sign in'}
+              {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </Button>
           </form>
 
           <p className="text-center text-muted-foreground mt-8">
-            {"Don't have an account? "}
+            {'Bạn chưa có tài khoản? '}
             <Link
               href="/auth/register"
               className="text-foreground font-medium hover:text-accent transition-colors link-underline"
             >
-              Create one
+              Tạo tài khoản
             </Link>
           </p>
         </div>

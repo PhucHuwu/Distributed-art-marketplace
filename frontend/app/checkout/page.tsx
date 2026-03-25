@@ -17,13 +17,13 @@ import { Label } from '@/components/ui/label';
 import { LoadingSpinner, InlineError, ErrorState } from '@/components/ui-states';
 
 const addressSchema = z.object({
-  recipient: z.string().min(1, 'Recipient is required'),
-  phoneNumber: z.string().min(1, 'Phone number is required'),
-  line1: z.string().min(1, 'Address line 1 is required'),
+  recipient: z.string().min(1, 'Vui lòng nhập người nhận'),
+  phoneNumber: z.string().min(1, 'Vui lòng nhập số điện thoại'),
+  line1: z.string().min(1, 'Vui lòng nhập địa chỉ dòng 1'),
   line2: z.string().optional(),
-  ward: z.string().min(1, 'Ward is required'),
-  district: z.string().min(1, 'District is required'),
-  city: z.string().min(1, 'City is required'),
+  ward: z.string().min(1, 'Vui lòng nhập phường/xã'),
+  district: z.string().min(1, 'Vui lòng nhập quận/huyện'),
+  city: z.string().min(1, 'Vui lòng nhập tỉnh/thành phố'),
   postalCode: z.string().optional(),
 });
 
@@ -33,7 +33,7 @@ const POLL_INTERVAL = 2000;
 const POLL_MAX = 30;
 
 function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency }).format(price);
 }
 
 function computeCartTotal(cart: Cart | null): number {
@@ -85,7 +85,7 @@ function CheckoutContent() {
       if (isApiError(err)) {
         setInitError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setInitError({ message: 'Failed to load checkout data.' });
+        setInitError({ message: 'Không thể tải dữ liệu thanh toán.' });
       }
     } finally {
       setLoadingInit(false);
@@ -110,7 +110,7 @@ function CheckoutContent() {
       await new Promise((r) => setTimeout(r, POLL_INTERVAL));
       attempts++;
     }
-    throw new Error('Order status timed out. Please check your orders page.');
+    throw new Error('Hết thời gian chờ trạng thái đơn hàng. Vui lòng kiểm tra trang đơn hàng.');
   };
 
   const saveAndSelectNewAddress = async (data: AddressFormValues) => {
@@ -124,12 +124,12 @@ function CheckoutContent() {
     setCheckoutError(null);
     const addr = addresses.find((a) => a.id === selectedAddressId);
     if (!addr) {
-      setCheckoutError({ message: 'Please select or create a shipping address.' });
+      setCheckoutError({ message: 'Vui lòng chọn hoặc tạo địa chỉ giao hàng.' });
       return;
     }
 
     try {
-      setProcessingStep('Creating order...');
+      setProcessingStep('Đang tạo đơn hàng...');
       const order = await ordersApi.createOrder({
         recipient: addr.recipient,
         phoneNumber: addr.phoneNumber,
@@ -141,7 +141,7 @@ function CheckoutContent() {
         postalCode: addr.postalCode || undefined,
       });
 
-      setProcessingStep('Confirming order...');
+      setProcessingStep('Đang xác nhận đơn hàng...');
       const confirmedOrder = await pollOrder(order.id);
 
       if (confirmedOrder.status === 'FAILED' || confirmedOrder.status === 'CANCELLED') {
@@ -149,7 +149,7 @@ function CheckoutContent() {
         return;
       }
 
-      setProcessingStep('Initiating payment...');
+      setProcessingStep('Đang khởi tạo thanh toán...');
       const orderTotal = Number(confirmedOrder.totalAmount);
       const payment = await paymentsApi.createPayment({
         orderId: confirmedOrder.id,
@@ -167,7 +167,7 @@ function CheckoutContent() {
       } else if (err instanceof Error) {
         setCheckoutError({ message: err.message });
       } else {
-        setCheckoutError({ message: 'Checkout failed. Please try again.' });
+        setCheckoutError({ message: 'Thanh toán thất bại. Vui lòng thử lại.' });
       }
     }
   };
@@ -203,7 +203,7 @@ function CheckoutContent() {
             <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
               <MapPin className="w-5 h-5 text-muted-foreground" />
             </div>
-            <h2 className="font-serif text-xl font-medium text-foreground">Shipping Address</h2>
+            <h2 className="font-serif text-xl font-medium text-foreground">Địa chỉ giao hàng</h2>
           </div>
 
           {addresses.length > 0 && (
@@ -232,7 +232,7 @@ function CheckoutContent() {
                       </p>
                       {addr.isDefault && (
                         <span className="inline-block text-xs text-accent font-medium mt-2 uppercase tracking-wide">
-                          Default
+                           Mặc định
                         </span>
                       )}
                     </div>
@@ -249,7 +249,7 @@ function CheckoutContent() {
 
           <Button variant="outline" onClick={() => setShowNewAddressForm((v) => !v)}>
             <Plus className="w-4 h-4 mr-2" />
-            {showNewAddressForm ? 'Cancel' : 'Add New Address'}
+            {showNewAddressForm ? 'Hủy' : 'Thêm địa chỉ mới'}
           </Button>
 
           {showNewAddressForm && (
@@ -259,7 +259,7 @@ function CheckoutContent() {
             >
               <div className="flex flex-col gap-2">
                 <Label htmlFor="recipient" className="text-sm font-medium">
-                  Recipient *
+                  Người nhận *
                 </Label>
                 <Input id="recipient" {...register('recipient')} className="h-11" />
                 {errors.recipient && (
@@ -268,7 +268,7 @@ function CheckoutContent() {
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="phoneNumber" className="text-sm font-medium">
-                  Phone *
+                  Số điện thoại *
                 </Label>
                 <Input id="phoneNumber" {...register('phoneNumber')} className="h-11" />
                 {errors.phoneNumber && (
@@ -277,27 +277,27 @@ function CheckoutContent() {
               </div>
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <Label htmlFor="line1" className="text-sm font-medium">
-                  Address line 1 *
+                  Địa chỉ dòng 1 *
                 </Label>
                 <Input id="line1" {...register('line1')} className="h-11" />
                 {errors.line1 && <p className="text-xs text-destructive">{errors.line1.message}</p>}
               </div>
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <Label htmlFor="line2" className="text-sm font-medium">
-                  Address line 2
+                  Địa chỉ dòng 2
                 </Label>
                 <Input id="line2" {...register('line2')} className="h-11" />
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="ward" className="text-sm font-medium">
-                  Ward *
+                  Phường/Xã *
                 </Label>
                 <Input id="ward" {...register('ward')} className="h-11" />
                 {errors.ward && <p className="text-xs text-destructive">{errors.ward.message}</p>}
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="district" className="text-sm font-medium">
-                  District *
+                  Quận/Huyện *
                 </Label>
                 <Input id="district" {...register('district')} className="h-11" />
                 {errors.district && (
@@ -306,20 +306,20 @@ function CheckoutContent() {
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="city" className="text-sm font-medium">
-                  City *
+                  Tỉnh/Thành phố *
                 </Label>
                 <Input id="city" {...register('city')} className="h-11" />
                 {errors.city && <p className="text-xs text-destructive">{errors.city.message}</p>}
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="postalCode" className="text-sm font-medium">
-                  Postal code
+                  Mã bưu chính
                 </Label>
                 <Input id="postalCode" {...register('postalCode')} className="h-11" />
               </div>
               <div className="sm:col-span-2 pt-4 border-t border-border mt-2">
                 <Button type="submit" disabled={formSubmitting} className="btn-premium">
-                  {formSubmitting ? 'Saving...' : 'Save Address'}
+                  {formSubmitting ? 'Đang lưu...' : 'Lưu địa chỉ'}
                 </Button>
               </div>
             </form>
@@ -330,13 +330,13 @@ function CheckoutContent() {
       {/* Right: Summary + checkout */}
       <div>
         <div className="bg-secondary/50 p-8 sticky top-24">
-          <h2 className="font-serif text-xl font-medium text-foreground mb-6">Order Summary</h2>
+          <h2 className="font-serif text-xl font-medium text-foreground mb-6">Tóm tắt đơn hàng</h2>
 
           <div className="flex flex-col gap-3 text-sm border-b border-border pb-6 mb-6">
             {items.map((item) => (
               <div key={item.id} className="flex justify-between">
                 <span className="text-muted-foreground truncate max-w-[60%]">
-                  Artwork #{item.artworkId.slice(0, 8)}{' '}
+                  Tác phẩm #{item.artworkId.slice(0, 8)}{' '}
                   <span className="text-foreground/50">x{item.quantity}</span>
                 </span>
                 <span className="text-foreground">
@@ -348,17 +348,17 @@ function CheckoutContent() {
 
           <div className="flex flex-col gap-3 text-sm border-b border-border pb-6 mb-6">
             <div className="flex justify-between text-muted-foreground">
-              <span>Subtotal</span>
+              <span>Tạm tính</span>
               <span className="text-foreground">{formatPrice(total, currency)}</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
-              <span>Shipping</span>
-              <span className="text-accent">Free</span>
+              <span>Phí vận chuyển</span>
+              <span className="text-accent">Miễn phí</span>
             </div>
           </div>
 
           <div className="flex justify-between font-medium text-lg mb-8">
-            <span className="font-serif">Total</span>
+            <span className="font-serif">Tổng cộng</span>
             <span className="font-serif">{formatPrice(total, currency)}</span>
           </div>
 
@@ -384,18 +384,18 @@ function CheckoutContent() {
             onClick={handleCheckout}
           >
             <CreditCard className="w-5 h-5 mr-2" />
-            {processingStep ? 'Processing...' : 'Place Order'}
+             {processingStep ? 'Đang xử lý...' : 'Đặt hàng'}
           </Button>
 
           {/* Trust badges */}
           <div className="mt-8 pt-6 border-t border-border flex flex-col gap-3 text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4" />
-              <span>Secure checkout</span>
+               <span>Thanh toán an toàn</span>
             </div>
             <div className="flex items-center gap-2">
               <Truck className="w-4 h-4" />
-              <span>Free worldwide shipping</span>
+               <span>Miễn phí vận chuyển toàn quốc</span>
             </div>
           </div>
         </div>
@@ -409,8 +409,8 @@ export default function CheckoutPage() {
     <RouteGuard>
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         <div className="mb-10">
-          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Secure Checkout</p>
-          <h1 className="text-4xl font-serif font-medium text-foreground">Complete Your Order</h1>
+          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Thanh toán an toàn</p>
+          <h1 className="text-4xl font-serif font-medium text-foreground">Hoàn tất đơn hàng</h1>
         </div>
         <CheckoutContent />
       </div>

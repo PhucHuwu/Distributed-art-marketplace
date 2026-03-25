@@ -16,22 +16,22 @@ import { Check } from 'lucide-react';
 
 const schema = z
   .object({
-    email: z.string().email('Enter a valid email address'),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
+    email: z.string().email('Vui lòng nhập email hợp lệ'),
+    password: z.string().min(8, 'Mật khẩu phải có ít nhất 8 ký tự'),
     confirmPassword: z.string(),
   })
   .refine((d) => d.password === d.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'Mật khẩu xác nhận không khớp',
     path: ['confirmPassword'],
   });
 
 type FormValues = z.infer<typeof schema>;
 
 const BENEFITS = [
-  'Access to exclusive artworks',
-  'Curated recommendations',
-  'Secure transactions',
-  'Worldwide shipping',
+  'Tiếp cận tác phẩm tuyển chọn',
+  'Gợi ý phù hợp gu thẩm mỹ',
+  'Giao dịch an toàn',
+  'Giao hàng toàn quốc',
 ];
 
 export default function RegisterPage() {
@@ -57,7 +57,7 @@ export default function RegisterPage() {
       if (isApiError(err)) {
         setApiError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setApiError({ message: 'Registration failed. Please try again.' });
+        setApiError({ message: 'Đăng ký thất bại. Vui lòng thử lại.' });
       }
     }
   };
@@ -72,18 +72,18 @@ export default function RegisterPage() {
               <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold">
                 A
               </span>
-              <span className="font-serif text-2xl tracking-tight">Artistry</span>
+              <span className="font-serif text-2xl tracking-tight">Hồn Tranh Việt</span>
             </Link>
             <h1 className="text-3xl md:text-4xl font-serif font-medium text-foreground">
-              Create account
+               Tạo tài khoản
             </h1>
-            <p className="text-muted-foreground mt-3">Join our community of art collectors</p>
+            <p className="text-muted-foreground mt-3">Tham gia cộng đồng yêu nghệ thuật Việt</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-sm font-medium">
-                Email address
+                Địa chỉ email
               </Label>
               <Input
                 id="email"
@@ -99,13 +99,13 @@ export default function RegisterPage() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="password" className="text-sm font-medium">
-                Password
+                Mật khẩu
               </Label>
               <Input
                 id="password"
                 type="password"
                 autoComplete="new-password"
-                placeholder="Min. 8 characters"
+                placeholder="Tối thiểu 8 ký tự"
                 className="h-12"
                 {...register('password')}
                 aria-invalid={!!errors.password}
@@ -117,13 +117,13 @@ export default function RegisterPage() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="confirmPassword" className="text-sm font-medium">
-                Confirm password
+                Xác nhận mật khẩu
               </Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 autoComplete="new-password"
-                placeholder="Repeat your password"
+                placeholder="Nhập lại mật khẩu"
                 className="h-12"
                 {...register('confirmPassword')}
                 aria-invalid={!!errors.confirmPassword}
@@ -142,17 +142,17 @@ export default function RegisterPage() {
               disabled={isSubmitting}
               className="w-full h-12 text-base tracking-wide btn-premium"
             >
-              {isSubmitting ? 'Creating account...' : 'Create account'}
+              {isSubmitting ? 'Đang tạo tài khoản...' : 'Tạo tài khoản'}
             </Button>
           </form>
 
           <p className="text-center text-muted-foreground mt-8">
-            Already have an account?{' '}
+            Bạn đã có tài khoản?{' '}
             <Link
               href="/auth/login"
               className="text-foreground font-medium hover:text-accent transition-colors link-underline"
             >
-              Sign in
+              Đăng nhập
             </Link>
           </p>
         </div>
@@ -171,16 +171,16 @@ export default function RegisterPage() {
             <span className="w-12 h-12 flex items-center justify-center bg-background text-foreground font-serif text-xl font-semibold">
               A
             </span>
-            <span className="font-serif text-3xl tracking-tight">Artistry</span>
+            <span className="font-serif text-3xl tracking-tight">Hồn Tranh Việt</span>
           </Link>
           <h2 className="text-4xl font-serif font-medium leading-tight mb-6">
-            Start your art
+            Bắt đầu hành trình
             <br />
-            collection today
+            sưu tầm tranh ngay
           </h2>
           <p className="text-background/70 text-lg leading-relaxed max-w-md mb-10">
-            Join thousands of collectors discovering exceptional artworks from visionary artists
-            worldwide.
+            Khám phá những tác phẩm đặc sắc từ các hoạ sĩ tài năng và xây dựng bộ sưu tập mang dấu
+            ấn riêng của bạn.
           </p>
 
           {/* Benefits list */}

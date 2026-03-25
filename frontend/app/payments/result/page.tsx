@@ -15,7 +15,7 @@ const POLL_INTERVAL = 3000;
 const POLL_MAX = 40;
 
 function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency }).format(price);
 }
 
 function formatDate(ts: string) {
@@ -64,14 +64,14 @@ function PaymentResultContent() {
       if (isApiError(err)) {
         setError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setError({ message: 'Failed to load payment result.' });
+        setError({ message: 'Không thể tải kết quả thanh toán.' });
       }
     }
   }, [paymentId, orderId]);
 
   useEffect(() => {
     if (!paymentId || !orderId) {
-      setError({ message: 'Missing payment or order ID.' });
+      setError({ message: 'Thiếu mã thanh toán hoặc mã đơn hàng.' });
       setLoading(false);
       return;
     }
@@ -115,46 +115,46 @@ function PaymentResultContent() {
           <Clock className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
         )}
         <h1 className="text-2xl font-serif font-bold text-foreground">
-          {isSuccess ? 'Payment successful!' : isFailed ? 'Payment failed' : 'Processing payment…'}
+          {isSuccess ? 'Thanh toán thành công!' : isFailed ? 'Thanh toán thất bại' : 'Đang xử lý thanh toán…'}
         </h1>
         <p className="text-muted-foreground mt-2 text-sm">
           {isSuccess
-            ? 'Your order has been confirmed. Thank you for your purchase!'
+            ? 'Đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng!'
             : isFailed
-              ? 'Your payment could not be completed. Please try again.'
-              : 'Please wait while we confirm your payment.'}
+              ? 'Không thể hoàn tất thanh toán. Vui lòng thử lại.'
+              : 'Vui lòng chờ trong khi chúng tôi xác nhận thanh toán.'}
         </p>
         {isPolling && (
           <div className="flex items-center justify-center gap-2 mt-4 text-sm text-muted-foreground">
             <div className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-            Checking status…
+            Đang kiểm tra trạng thái…
           </div>
         )}
       </div>
 
       {/* Payment info */}
       <div className="bg-card border border-border rounded-lg p-6 mb-6">
-        <h2 className="font-semibold text-foreground mb-4">Payment details</h2>
+        <h2 className="font-semibold text-foreground mb-4">Thông tin thanh toán</h2>
         <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-          <dt className="text-muted-foreground">Payment ID</dt>
+          <dt className="text-muted-foreground">Mã thanh toán</dt>
           <dd className="font-mono text-xs text-foreground truncate">{payment.id}</dd>
-          <dt className="text-muted-foreground">Order ID</dt>
+          <dt className="text-muted-foreground">Mã đơn hàng</dt>
           <dd className="font-mono text-xs text-foreground truncate">{payment.orderId}</dd>
-          <dt className="text-muted-foreground">Amount</dt>
+          <dt className="text-muted-foreground">Số tiền</dt>
           <dd className="text-foreground font-semibold">
             {formatPrice(Number(payment.amount), payment.currency)}
           </dd>
-          <dt className="text-muted-foreground">Payment status</dt>
+          <dt className="text-muted-foreground">Trạng thái thanh toán</dt>
           <dd>
             <StatusBadge status={payment.status} />
           </dd>
-          <dt className="text-muted-foreground">Order status</dt>
+          <dt className="text-muted-foreground">Trạng thái đơn hàng</dt>
           <dd>
             <StatusBadge status={order.status} />
           </dd>
-          <dt className="text-muted-foreground">Provider</dt>
+          <dt className="text-muted-foreground">Cổng thanh toán</dt>
           <dd className="text-foreground">{payment.provider}</dd>
-          <dt className="text-muted-foreground">Date</dt>
+          <dt className="text-muted-foreground">Thời gian</dt>
           <dd className="text-foreground">{formatDate(payment.createdAt)}</dd>
         </dl>
       </div>
@@ -162,7 +162,7 @@ function PaymentResultContent() {
       {/* History */}
       {history.length > 0 && (
         <div className="bg-card border border-border rounded-lg p-6 mb-6">
-          <h2 className="font-semibold text-foreground mb-4">Processing history</h2>
+          <h2 className="font-semibold text-foreground mb-4">Lịch sử xử lý</h2>
           <ol className="relative border-l border-border ml-2 flex flex-col gap-5">
             {history.map((entry, i) => (
               <li key={i} className="pl-6 relative">
@@ -176,7 +176,7 @@ function PaymentResultContent() {
                 <p className="text-sm text-muted-foreground mt-1">{entry.reason}</p>
                 {entry.correlationId && (
                   <p className="text-xs text-muted-foreground mt-0.5 font-mono">
-                    Ref: {entry.correlationId}
+                    Mã: {entry.correlationId}
                   </p>
                 )}
               </li>
@@ -189,11 +189,11 @@ function PaymentResultContent() {
       <div className="flex flex-col sm:flex-row gap-3">
         <Link href={`/orders/${orderId}`} className="flex-1">
           <Button variant="outline" className="w-full">
-            View order
+            Xem đơn hàng
           </Button>
         </Link>
         <Link href="/" className="flex-1">
-          <Button className="w-full">Continue shopping</Button>
+          <Button className="w-full">Tiếp tục mua sắm</Button>
         </Link>
       </div>
     </div>

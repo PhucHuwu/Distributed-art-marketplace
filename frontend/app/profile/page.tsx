@@ -19,19 +19,19 @@ import { LoadingSpinner, ErrorState, InlineError } from '@/components/ui-states'
 const profileSchema = z.object({
   fullName: z.string().optional(),
   phoneNumber: z.string().optional(),
-  avatarUrl: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  avatarUrl: z.string().url('Vui lòng nhập URL hợp lệ').optional().or(z.literal('')),
 });
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
 // ─── Address form ─────────────────────────────────────────────────────────────
 const addressSchema = z.object({
-  recipient: z.string().min(1, 'Recipient is required'),
-  phoneNumber: z.string().min(1, 'Phone is required'),
-  line1: z.string().min(1, 'Address line 1 is required'),
+  recipient: z.string().min(1, 'Vui lòng nhập người nhận'),
+  phoneNumber: z.string().min(1, 'Vui lòng nhập số điện thoại'),
+  line1: z.string().min(1, 'Vui lòng nhập địa chỉ dòng 1'),
   line2: z.string().optional(),
-  ward: z.string().min(1, 'Ward is required'),
-  district: z.string().min(1, 'District is required'),
-  city: z.string().min(1, 'City is required'),
+  ward: z.string().min(1, 'Vui lòng nhập phường/xã'),
+  district: z.string().min(1, 'Vui lòng nhập quận/huyện'),
+  city: z.string().min(1, 'Vui lòng nhập tỉnh/thành phố'),
   postalCode: z.string().optional(),
   isDefault: z.boolean().optional(),
 });
@@ -62,14 +62,14 @@ function AddressForm({
     >
       <div className="flex flex-col gap-2">
         <Label htmlFor="a-recipient" className="text-sm font-medium">
-          Recipient *
+          Người nhận *
         </Label>
         <Input id="a-recipient" {...register('recipient')} className="h-11" />
         {errors.recipient && <p className="text-xs text-destructive">{errors.recipient.message}</p>}
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="a-phone" className="text-sm font-medium">
-          Phone *
+          Số điện thoại *
         </Label>
         <Input id="a-phone" {...register('phoneNumber')} className="h-11" />
         {errors.phoneNumber && (
@@ -78,41 +78,41 @@ function AddressForm({
       </div>
       <div className="sm:col-span-2 flex flex-col gap-2">
         <Label htmlFor="a-line1" className="text-sm font-medium">
-          Address line 1 *
+          Địa chỉ dòng 1 *
         </Label>
         <Input id="a-line1" {...register('line1')} className="h-11" />
         {errors.line1 && <p className="text-xs text-destructive">{errors.line1.message}</p>}
       </div>
       <div className="sm:col-span-2 flex flex-col gap-2">
         <Label htmlFor="a-line2" className="text-sm font-medium">
-          Address line 2
+          Địa chỉ dòng 2
         </Label>
         <Input id="a-line2" {...register('line2')} className="h-11" />
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="a-ward" className="text-sm font-medium">
-          Ward *
+          Phường/Xã *
         </Label>
         <Input id="a-ward" {...register('ward')} className="h-11" />
         {errors.ward && <p className="text-xs text-destructive">{errors.ward.message}</p>}
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="a-district" className="text-sm font-medium">
-          District *
+          Quận/Huyện *
         </Label>
         <Input id="a-district" {...register('district')} className="h-11" />
         {errors.district && <p className="text-xs text-destructive">{errors.district.message}</p>}
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="a-city" className="text-sm font-medium">
-          City *
+          Tỉnh/Thành phố *
         </Label>
         <Input id="a-city" {...register('city')} className="h-11" />
         {errors.city && <p className="text-xs text-destructive">{errors.city.message}</p>}
       </div>
       <div className="flex flex-col gap-2">
         <Label htmlFor="a-postal" className="text-sm font-medium">
-          Postal code
+          Mã bưu chính
         </Label>
         <Input id="a-postal" {...register('postalCode')} className="h-11" />
       </div>
@@ -124,15 +124,15 @@ function AddressForm({
           className="w-4 h-4 accent-accent"
         />
         <Label htmlFor="a-default" className="cursor-pointer text-sm">
-          Set as default address
+          Đặt làm địa chỉ mặc định
         </Label>
       </div>
       <div className="sm:col-span-2 flex gap-3 pt-4 border-t border-border mt-2">
         <Button type="submit" disabled={isSubmitting} className="btn-premium">
-          <Check className="w-4 h-4 mr-2" /> {isSubmitting ? 'Saving...' : 'Save Address'}
+          <Check className="w-4 h-4 mr-2" /> {isSubmitting ? 'Đang lưu...' : 'Lưu địa chỉ'}
         </Button>
         <Button type="button" variant="outline" onClick={onCancel}>
-          <X className="w-4 h-4 mr-2" /> Cancel
+          <X className="w-4 h-4 mr-2" /> Hủy
         </Button>
       </div>
     </form>
@@ -164,7 +164,7 @@ function ProfileContent() {
       setAddresses(a);
     } catch (err) {
       if (isApiError(err)) setError({ message: err.message, correlationId: err.correlationId });
-      else setError({ message: 'Failed to load profile.' });
+      else setError({ message: 'Không thể tải hồ sơ người dùng.' });
     } finally {
       setLoading(false);
     }
@@ -206,7 +206,7 @@ function ProfileContent() {
     } catch (err) {
       if (isApiError(err))
         setProfileError({ message: err.message, correlationId: err.correlationId });
-      else setProfileError({ message: 'Failed to update profile.' });
+      else setProfileError({ message: 'Không thể cập nhật hồ sơ.' });
     }
   };
 
@@ -262,7 +262,7 @@ function ProfileContent() {
           </div>
           <div>
             <h2 className="font-serif text-2xl font-medium text-foreground">
-              Personal Information
+              Thông tin cá nhân
             </h2>
             <p className="text-sm text-muted-foreground">{user?.email}</p>
           </div>
@@ -277,12 +277,12 @@ function ProfileContent() {
         >
           <div className="flex flex-col gap-2">
             <Label htmlFor="fullName" className="text-sm font-medium">
-              Full name
+              Họ và tên
             </Label>
             <Input
               id="fullName"
               {...register('fullName')}
-              placeholder="Your name"
+              placeholder="Nhập họ và tên"
               className="h-11"
             />
             {profileErrors.fullName && (
@@ -291,18 +291,18 @@ function ProfileContent() {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="phoneNumber" className="text-sm font-medium">
-              Phone number
+              Số điện thoại
             </Label>
             <Input
               id="phoneNumber"
               {...register('phoneNumber')}
-              placeholder="+1 234 567 8900"
+              placeholder="Ví dụ: 0901234567"
               className="h-11"
             />
           </div>
           <div className="sm:col-span-2 flex flex-col gap-2">
             <Label htmlFor="avatarUrl" className="text-sm font-medium">
-              Avatar URL
+              URL ảnh đại diện
             </Label>
             <Input
               id="avatarUrl"
@@ -325,12 +325,12 @@ function ProfileContent() {
           {profileSuccess && (
             <div className="sm:col-span-2 flex items-center gap-2 text-accent">
               <Check className="w-4 h-4" />
-              <span className="text-sm font-medium">Profile updated successfully.</span>
+              <span className="text-sm font-medium">Cập nhật hồ sơ thành công.</span>
             </div>
           )}
           <div className="sm:col-span-2 pt-4 border-t border-border mt-2">
             <Button type="submit" disabled={profileSubmitting} className="btn-premium">
-              {profileSubmitting ? 'Saving...' : 'Save Changes'}
+              {profileSubmitting ? 'Đang lưu...' : 'Lưu thay đổi'}
             </Button>
           </div>
         </form>
@@ -343,10 +343,10 @@ function ProfileContent() {
             <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
               <MapPin className="w-6 h-6 text-muted-foreground" />
             </div>
-            <h2 className="font-serif text-2xl font-medium text-foreground">Shipping Addresses</h2>
+            <h2 className="font-serif text-2xl font-medium text-foreground">Địa chỉ giao hàng</h2>
           </div>
           <Button variant="outline" onClick={() => setShowNewAddress((v) => !v)}>
-            <Plus className="w-4 h-4 mr-2" /> {showNewAddress ? 'Cancel' : 'Add Address'}
+            <Plus className="w-4 h-4 mr-2" /> {showNewAddress ? 'Hủy' : 'Thêm địa chỉ'}
           </Button>
         </div>
 
@@ -359,9 +359,9 @@ function ProfileContent() {
         {addresses.length === 0 && !showNewAddress && (
           <div className="bg-secondary/50 p-12 text-center">
             <MapPin className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
-            <p className="text-muted-foreground">No addresses saved yet.</p>
+            <p className="text-muted-foreground">Bạn chưa lưu địa chỉ nào.</p>
             <Button variant="outline" className="mt-4" onClick={() => setShowNewAddress(true)}>
-              <Plus className="w-4 h-4 mr-2" /> Add Your First Address
+              <Plus className="w-4 h-4 mr-2" /> Thêm địa chỉ đầu tiên
             </Button>
           </div>
         )}
@@ -396,7 +396,7 @@ function ProfileContent() {
                       <p className="font-medium text-foreground">{addr.recipient}</p>
                       {addr.isDefault && (
                         <span className="text-xs uppercase tracking-wider bg-accent/10 text-accent px-2 py-1 font-medium flex items-center gap-1">
-                          <Star className="w-3 h-3" /> Default
+                           <Star className="w-3 h-3" /> Mặc định
                         </span>
                       )}
                     </div>
@@ -413,7 +413,7 @@ function ProfileContent() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        title="Set as default"
+                        title="Đặt làm mặc định"
                         onClick={() => onSetDefault(addr.id)}
                         className="text-muted-foreground hover:text-accent"
                       >
@@ -452,8 +452,8 @@ export default function ProfilePage() {
     <RouteGuard>
       <div className="max-w-3xl mx-auto px-6 lg:px-8 py-12">
         <div className="mb-10">
-          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Account</p>
-          <h1 className="text-4xl font-serif font-medium text-foreground">My Profile</h1>
+          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Tài khoản</p>
+          <h1 className="text-4xl font-serif font-medium text-foreground">Hồ sơ của tôi</h1>
         </div>
         <ProfileContent />
       </div>

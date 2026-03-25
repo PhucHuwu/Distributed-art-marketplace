@@ -14,16 +14,16 @@ export default function GlobalError({
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 px-4 text-center">
       <AlertCircle className="w-12 h-12 text-destructive" />
       <div>
-        <h2 className="text-xl font-semibold text-foreground mb-2">An unexpected error occurred</h2>
+        <h2 className="text-xl font-semibold text-foreground mb-2">Đã xảy ra lỗi ngoài dự kiến</h2>
         <p className="text-muted-foreground text-sm max-w-md">
-          {error.message || 'Please try again. If the problem persists, contact support.'}
+          {error.message || 'Vui lòng thử lại. Nếu lỗi tiếp diễn, hãy liên hệ bộ phận hỗ trợ.'}
         </p>
         {error.digest && (
-          <p className="text-xs text-muted-foreground mt-2 font-mono">Ref: {error.digest}</p>
+          <p className="text-xs text-muted-foreground mt-2 font-mono">Mã: {error.digest}</p>
         )}
       </div>
       <Button onClick={reset} variant="outline">
-        <RefreshCw className="w-4 h-4 mr-2" /> Try again
+        <RefreshCw className="w-4 h-4 mr-2" /> Thử lại
       </Button>
     </div>
   );

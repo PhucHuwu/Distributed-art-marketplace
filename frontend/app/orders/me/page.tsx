@@ -11,11 +11,11 @@ import { Button } from '@/components/ui/button';
 import { LoadingSpinner, EmptyState, ErrorState, StatusBadge } from '@/components/ui-states';
 
 function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency }).format(price);
 }
 
 function formatDate(ts: string) {
-  return new Date(ts).toLocaleDateString('en-US', {
+  return new Date(ts).toLocaleDateString('vi-VN', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -39,7 +39,7 @@ function OrdersContent() {
       if (isApiError(err)) {
         setError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setError({ message: 'Failed to load orders.' });
+        setError({ message: 'Không thể tải danh sách đơn hàng.' });
       }
     } finally {
       setLoading(false);
@@ -72,13 +72,13 @@ function OrdersContent() {
     return (
       <div className="py-20">
         <EmptyState
-          title="No orders yet"
-          description="When you place an order it will appear here."
+          title="Bạn chưa có đơn hàng"
+          description="Khi bạn đặt hàng, đơn sẽ hiển thị tại đây."
           action={
             <Link href="/">
               <Button size="lg" className="mt-4">
                 <ShoppingBag className="w-4 h-4 mr-2" />
-                Start Shopping
+                Mua sắm ngay
               </Button>
             </Link>
           }
@@ -103,11 +103,11 @@ function OrdersContent() {
               </div>
               <div>
                 <p className="font-serif text-lg font-medium text-foreground mb-1">
-                  Order #{order.id.slice(-8).toUpperCase()}
+                  Đơn hàng #{order.id.slice(-8).toUpperCase()}
                 </p>
                 <p className="text-sm text-muted-foreground">{formatDate(order.createdAt)}</p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {order.items?.length ?? 0} {(order.items?.length ?? 0) === 1 ? 'item' : 'items'}
+                  {order.items?.length ?? 0} {(order.items?.length ?? 0) === 1 ? 'sản phẩm' : 'sản phẩm'}
                 </p>
               </div>
             </div>
@@ -130,8 +130,8 @@ export default function OrdersPage() {
     <RouteGuard>
       <div className="max-w-4xl mx-auto px-6 lg:px-8 py-12">
         <div className="mb-10">
-          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Account</p>
-          <h1 className="text-4xl font-serif font-medium text-foreground">Order History</h1>
+          <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Tài khoản</p>
+          <h1 className="text-4xl font-serif font-medium text-foreground">Lịch sử đơn hàng</h1>
         </div>
         <OrdersContent />
       </div>

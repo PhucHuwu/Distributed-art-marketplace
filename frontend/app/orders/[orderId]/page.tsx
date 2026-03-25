@@ -15,7 +15,7 @@ const POLL_INTERVAL = 3000;
 const POLL_MAX = 30;
 
 function formatPrice(price: number, currency: string) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency }).format(price);
 }
 
 function formatDate(ts: string) {
@@ -64,7 +64,7 @@ function OrderDetailContent() {
       if (isApiError(err)) {
         setError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setError({ message: 'Failed to load order.' });
+        setError({ message: 'Không thể tải chi tiết đơn hàng.' });
       }
     }
   }, [orderId]);
@@ -97,14 +97,14 @@ function OrderDetailContent() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="text-xs text-muted-foreground font-mono mb-1">{order.id}</p>
-            <p className="text-sm text-muted-foreground">Placed {formatDate(order.createdAt)}</p>
+            <p className="text-sm text-muted-foreground">Đặt lúc {formatDate(order.createdAt)}</p>
           </div>
           <div className="flex items-center gap-3">
             <StatusBadge status={order.status} />
             {isPolling && (
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <div className="w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-                Updating…
+                 Đang cập nhật…
               </div>
             )}
           </div>
@@ -114,19 +114,19 @@ function OrderDetailContent() {
       {/* Items */}
       <div className="bg-card border border-border rounded-lg p-6">
         <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-          <Package className="w-4 h-4 text-accent" /> Items
+           <Package className="w-4 h-4 text-accent" /> Sản phẩm
         </h2>
         <div className="flex flex-col gap-4">
           {order.items?.map((item) => (
             <div key={item.id} className="flex gap-4 items-center">
               <div className="relative w-16 h-16 rounded-md overflow-hidden bg-muted shrink-0">
                 <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">
-                  Artwork
+                   Tác phẩm
                 </div>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm text-foreground line-clamp-1">
-                  Artwork #{item.artworkId.slice(0, 8)}
+                   Tác phẩm #{item.artworkId.slice(0, 8)}
                 </p>
                 <p className="text-sm text-muted-foreground">×{item.quantity}</p>
               </div>
@@ -136,7 +136,7 @@ function OrderDetailContent() {
             </div>
           ))}
           <div className="border-t border-border pt-4 flex justify-between font-semibold">
-            <span className="text-foreground">Total</span>
+            <span className="text-foreground">Tổng cộng</span>
             <span className="text-accent">
               {formatPrice(Number(order.totalAmount), order.currency)}
             </span>
@@ -148,7 +148,7 @@ function OrderDetailContent() {
       {order.shippingAddress && (
         <div className="bg-card border border-border rounded-lg p-6">
           <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-accent" /> Shipping address
+           <MapPin className="w-4 h-4 text-accent" /> Địa chỉ giao hàng
           </h2>
           <div className="text-sm text-muted-foreground flex flex-col gap-1">
             <p className="font-medium text-foreground">{address.recipient}</p>
@@ -168,10 +168,10 @@ function OrderDetailContent() {
       {/* Actions */}
       <div className="flex gap-3">
         <Link href="/orders/me">
-          <Button variant="outline">Back to orders</Button>
+           <Button variant="outline">Quay lại đơn hàng</Button>
         </Link>
         <Link href="/">
-          <Button>Continue shopping</Button>
+           <Button>Tiếp tục mua sắm</Button>
         </Link>
       </div>
     </div>
@@ -182,7 +182,7 @@ export default function OrderDetailPage() {
   return (
     <RouteGuard>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-3xl font-serif font-bold text-foreground mb-8">Order details</h1>
+        <h1 className="text-3xl font-serif font-bold text-foreground mb-8">Chi tiết đơn hàng</h1>
         <OrderDetailContent />
       </div>
     </RouteGuard>

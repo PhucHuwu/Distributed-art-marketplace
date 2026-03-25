@@ -9,14 +9,14 @@ export function LoadingSpinner({ className = '' }: { className?: string }) {
         <div className="w-12 h-12 border-2 border-border rounded-full" />
         <div className="absolute inset-0 w-12 h-12 border-2 border-accent border-t-transparent rounded-full animate-spin" />
       </div>
-      <p className="text-sm text-muted-foreground mt-4 animate-pulse">Loading...</p>
+      <p className="text-sm text-muted-foreground mt-4 animate-pulse">Đang tải...</p>
     </div>
   );
 }
 
 // ─── Empty state ─────────────────────────────────────────────────────────────
 export function EmptyState({
-  title = 'Nothing here yet',
+  title = 'Chưa có dữ liệu',
   description,
   action,
 }: {
@@ -55,18 +55,18 @@ export function ErrorState({
       </div>
       <div>
         <h3 className="font-serif text-2xl font-medium text-foreground mb-2">
-          Something went wrong
+          Đã xảy ra lỗi
         </h3>
         {message && <p className="text-muted-foreground max-w-md mx-auto">{message}</p>}
         {correlationId && (
           <p className="text-xs text-muted-foreground mt-3 font-mono bg-muted px-3 py-1.5 rounded inline-block">
-            Reference: {correlationId}
+            Mã tham chiếu: {correlationId}
           </p>
         )}
       </div>
       {onRetry && (
         <Button variant="outline" onClick={onRetry} className="mt-2">
-          <RefreshCw className="w-4 h-4 mr-2" /> Try Again
+          <RefreshCw className="w-4 h-4 mr-2" /> Thử lại
         </Button>
       )}
     </div>
@@ -89,7 +89,7 @@ export function InlineError({
         <div>
           <p className="text-foreground font-medium">{message}</p>
           {correlationId && (
-            <p className="text-xs mt-1 text-muted-foreground font-mono">Ref: {correlationId}</p>
+            <p className="text-xs mt-1 text-muted-foreground font-mono">Mã: {correlationId}</p>
           )}
         </div>
       </div>

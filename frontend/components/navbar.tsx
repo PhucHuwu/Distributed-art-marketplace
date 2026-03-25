@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ShoppingCart, User, Menu, X, LogOut, Package, Search } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, LogOut, Package } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
@@ -15,8 +15,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 const NAV_LINKS = [
-  { href: '/', label: 'Collection' },
-  { href: '/orders/me', label: 'My Orders' },
+  { href: '/', label: 'Bộ sưu tập' },
+  { href: '/orders/me', label: 'Đơn hàng của tôi' },
 ];
 
 export function Navbar() {
@@ -48,10 +48,10 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="group flex items-center gap-3">
             <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold transition-transform duration-300 group-hover:scale-105">
-              A
+              H
             </span>
             <span className="font-serif text-2xl tracking-tight text-foreground hidden sm:block">
-              Artistry
+              Hồn Tranh Việt
             </span>
           </Link>
 
@@ -77,7 +77,7 @@ export function Navbar() {
 
           {/* Desktop actions */}
           <div className="hidden md:flex items-center gap-2">
-            <Link href="/cart" aria-label="Cart">
+            <Link href="/cart" aria-label="Giỏ hàng">
               <Button
                 variant="ghost"
                 size="icon"
@@ -101,20 +101,20 @@ export function Navbar() {
                 <DropdownMenuContent align="end" className="w-56 p-2">
                   <div className="px-3 py-2 border-b border-border mb-2">
                     <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                      Signed in as
+                      Đăng nhập với
                     </p>
                     <p className="text-sm font-medium truncate mt-0.5">{user.email}</p>
                   </div>
                   <DropdownMenuItem asChild className="py-2.5 px-3 cursor-pointer">
                     <Link href="/profile">
                       <User className="w-4 h-4 mr-3 text-muted-foreground" />
-                      <span>Profile</span>
+                      <span>Hồ sơ</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="py-2.5 px-3 cursor-pointer">
                     <Link href="/orders/me">
                       <Package className="w-4 h-4 mr-3 text-muted-foreground" />
-                      <span>Order History</span>
+                      <span>Lịch sử đơn hàng</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="my-2" />
@@ -123,7 +123,7 @@ export function Navbar() {
                     className="py-2.5 px-3 text-destructive cursor-pointer focus:text-destructive"
                   >
                     <LogOut className="w-4 h-4 mr-3" />
-                    <span>Sign out</span>
+                    <span>Đăng xuất</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -131,12 +131,12 @@ export function Navbar() {
               <div className="flex items-center gap-3 ml-2">
                 <Link href="/auth/login">
                   <Button variant="ghost" size="sm" className="text-sm font-medium tracking-wide">
-                    Sign in
+                    Đăng nhập
                   </Button>
                 </Link>
                 <Link href="/auth/register">
                   <Button size="sm" className="text-sm font-medium tracking-wide btn-premium">
-                    Create Account
+                    Tạo tài khoản
                   </Button>
                 </Link>
               </div>
@@ -147,7 +147,7 @@ export function Navbar() {
           <button
             className="md:hidden p-2 text-foreground hover:bg-secondary rounded-full transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
-            aria-label="Toggle menu"
+            aria-label="Mở menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -180,7 +180,7 @@ export function Navbar() {
             onClick={() => setMobileOpen(false)}
             className="text-base font-medium text-muted-foreground py-2 hover:text-foreground transition-colors"
           >
-            Shopping Cart
+            Giỏ hàng
           </Link>
 
           <div className="h-px bg-border my-2" />
@@ -192,7 +192,7 @@ export function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="text-base font-medium text-muted-foreground py-2 hover:text-foreground transition-colors"
               >
-                Profile
+                Hồ sơ
               </Link>
               <button
                 onClick={() => {
@@ -201,18 +201,18 @@ export function Navbar() {
                 }}
                 className="text-left text-base font-medium text-destructive py-2"
               >
-                Sign out
+                Đăng xuất
               </button>
             </>
           ) : (
             <div className="flex flex-col gap-3 mt-2">
               <Link href="/auth/login" onClick={() => setMobileOpen(false)}>
                 <Button variant="outline" className="w-full">
-                  Sign in
+                  Đăng nhập
                 </Button>
               </Link>
               <Link href="/auth/register" onClick={() => setMobileOpen(false)}>
-                <Button className="w-full">Create Account</Button>
+                  <Button className="w-full">Tạo tài khoản</Button>
               </Link>
             </div>
           )}

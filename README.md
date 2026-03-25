@@ -44,47 +44,59 @@ All services must expose:
 
 ## Quick Start (Local)
 
-1. Copy root env template:
+### 1) Install required tools
+
+- Node.js 20+ and npm
+- Docker Desktop (includes Docker Compose)
+- Git
+
+### 2) Clone and install
+
+```bash
+git clone https://github.com/PhucHuwu/Distributed-art-marketplace.git
+cd Distributed-art-marketplace
+npm install
+```
+
+### 3) Backend setup and run (Docker)
+
+From repo root:
 
 ```bash
 cp .env.example .env
-```
-
-2. Boot local stack:
-
-```bash
 docker compose up -d --build
 ```
 
-3. Run smoke checks (see [Gateway Local Routes](#gateway-local-routes)):
+Backend APIs will be available through gateway at `http://localhost/api/...`.
+
+### 4) Frontend setup and run
+
+Open a second terminal:
 
 ```bash
-bash scripts/smoke-local.sh
-```
-
-Optional full E2E event-flow validation on docker compose (includes migrate + smoke + event-flow):
-
-```bash
-npm run e2e:compose
-```
-
-4. Stop stack when done:
-
-```bash
-docker compose down
-```
-
-## Frontend Local Run
-
-Run in `frontend/`:
-
-```bash
+cd frontend
 npm install
 cp .env.example .env.local
 npm run dev
 ```
 
-Frontend local URL: `http://localhost:3000`.
+Frontend will run at `http://localhost:3000`.
+
+### 5) Run tests (optional)
+
+From repo root:
+
+```bash
+npm run test:all
+```
+
+### 6) Stop backend services
+
+From repo root:
+
+```bash
+docker compose down
+```
 
 ## Gateway Local Routes
 

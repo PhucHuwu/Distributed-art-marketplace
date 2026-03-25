@@ -73,7 +73,7 @@ export default function CatalogPage() {
       if (isApiError(err)) {
         setError({ message: err.message, correlationId: err.correlationId });
       } else {
-        setError({ message: 'Failed to load artworks.' });
+        setError({ message: 'Không thể tải danh sách tác phẩm.' });
       }
     } finally {
       setLoading(false);
@@ -108,14 +108,14 @@ export default function CatalogPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 md:py-28">
           <div className="max-w-3xl fade-in">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4">
-              Curated Collection
+              Bộ sưu tập tuyển chọn
             </p>
             <h1 className="text-5xl md:text-7xl font-serif font-medium text-foreground leading-[1.1] text-balance">
-              Discover Extraordinary Art
+              Khám phá tác phẩm nghệ thuật đặc sắc
             </h1>
             <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
-              Explore our carefully curated selection of exceptional artworks from visionary artists
-              around the world.
+              Khám phá bộ sưu tập được tuyển chọn kỹ lưỡng với những tác phẩm ấn tượng từ các hoạ
+              sĩ tài năng.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <Button
@@ -125,7 +125,7 @@ export default function CatalogPage() {
                   document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })
                 }
               >
-                Explore Collection
+                Khám phá bộ sưu tập
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
@@ -138,9 +138,9 @@ export default function CatalogPage() {
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">The Gallery</p>
+            <p className="text-sm uppercase tracking-[0.2em] text-accent mb-2">Phòng trưng bày</p>
             <h2 className="text-3xl md:text-4xl font-serif font-medium text-foreground">
-              Featured Artworks
+              Tác phẩm nổi bật
             </h2>
           </div>
 
@@ -151,7 +151,7 @@ export default function CatalogPage() {
               <Input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search artworks..."
+                placeholder="Tìm kiếm tác phẩm..."
                 className="pl-9 w-full sm:w-64 bg-background"
               />
             </div>
@@ -161,12 +161,12 @@ export default function CatalogPage() {
               className="shrink-0"
             >
               <SlidersHorizontal className="w-4 h-4 mr-2" />
-              Filters
+              Bộ lọc
               {hasFilters && <span className="ml-2 w-2 h-2 bg-accent rounded-full" />}
             </Button>
             {hasFilters && (
               <Button variant="ghost" onClick={clearFilters} className="shrink-0">
-                <X className="w-4 h-4 mr-1" /> Clear
+                <X className="w-4 h-4 mr-1" /> Xóa lọc
               </Button>
             )}
           </div>
@@ -181,14 +181,14 @@ export default function CatalogPage() {
           <div className="bg-card border border-border rounded-lg p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Artist
+                 Họa sĩ
               </label>
               <select
                 value={selectedArtist}
                 onChange={(e) => setSelectedArtist(e.target.value)}
                 className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
               >
-                <option value="">All artists</option>
+                <option value="">Tất cả họa sĩ</option>
                 {artists.map((a) => (
                   <option key={a.id} value={a.id}>
                     {a.name}
@@ -198,14 +198,14 @@ export default function CatalogPage() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Category
+                 Danh mục
               </label>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
               >
-                <option value="">All categories</option>
+                <option value="">Tất cả danh mục</option>
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.name}
@@ -215,7 +215,7 @@ export default function CatalogPage() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Min price
+                 Giá tối thiểu
               </label>
               <Input
                 type="number"
@@ -228,14 +228,14 @@ export default function CatalogPage() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                Max price
+                 Giá tối đa
               </label>
               <Input
                 type="number"
                 min={0}
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                placeholder="Any"
+                placeholder="Không giới hạn"
                 className="h-10"
               />
             </div>
@@ -258,12 +258,12 @@ export default function CatalogPage() {
         ) : artworks.length === 0 ? (
           <div className="py-20">
             <EmptyState
-              title="No artworks found"
-              description="Try adjusting your search or filters to discover more pieces."
+               title="Không tìm thấy tác phẩm"
+               description="Hãy thử điều chỉnh từ khóa tìm kiếm hoặc bộ lọc để xem thêm tác phẩm."
               action={
                 hasFilters ? (
                   <Button variant="outline" onClick={clearFilters}>
-                    Clear filters
+                     Xóa bộ lọc
                   </Button>
                 ) : undefined
               }
@@ -340,11 +340,11 @@ export default function CatalogPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 md:py-28">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-serif font-medium mb-6">
-              Start Your Art Collection Today
+               Bắt đầu bộ sưu tập của bạn hôm nay
             </h2>
             <p className="text-background/70 text-lg mb-8">
-              Join thousands of collectors who have discovered extraordinary pieces through our
-              curated marketplace.
+               Đồng hành cùng cộng đồng yêu nghệ thuật và sở hữu những tác phẩm độc đáo được tuyển
+               chọn dành riêng cho bạn.
             </p>
             <Link href="/auth/register">
               <Button
@@ -352,7 +352,7 @@ export default function CatalogPage() {
                 size="lg"
                 className="text-base px-8 h-12 bg-background text-foreground hover:bg-background/90"
               >
-                Create Account
+                 Tạo tài khoản
               </Button>
             </Link>
           </div>

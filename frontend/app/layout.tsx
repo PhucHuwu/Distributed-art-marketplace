@@ -17,8 +17,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Dam Market',
-  description: 'Distributed Art Marketplace storefront',
+  title: 'Hồn Tranh Việt',
+  description: 'Sàn tranh nghệ thuật trực tuyến dành cho người Việt',
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="vi" className={`${playfair.variable} ${inter.variable}`}>
       <body className="font-sans antialiased min-h-screen flex flex-col bg-background text-foreground">
         <AuthProvider>
           <Navbar />
