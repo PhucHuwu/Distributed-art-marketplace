@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -35,7 +35,7 @@ const BENEFITS = [
 ];
 
 export default function RegisterPage() {
-  const { register: registerUser } = useAuth();
+  const { user, loading, register: registerUser } = useAuth();
   const router = useRouter();
   const [apiError, setApiError] = useState<{
     message: string;
@@ -47,6 +47,20 @@ export default function RegisterPage() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace('/');
+    }
+  }, [loading, user, router]);
+
+  if (loading || user) {
+    return (
+      <div className="min-h-[85vh] flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   const onSubmit = async (data: FormValues) => {
     setApiError(null);
@@ -69,9 +83,7 @@ export default function RegisterPage() {
         <div className="w-full max-w-md fade-in">
           <div className="mb-10">
             <Link href="/" className="lg:hidden inline-flex items-center gap-3 mb-8">
-              <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold">
-                A
-              </span>
+              <img src="/logo-hon-tranh-viet-mark.svg" alt="Logo Hồn Tranh Việt" className="h-10 w-10" />
               <span className="font-serif text-2xl tracking-tight">Hồn Tranh Việt</span>
             </Link>
             <h1 className="text-3xl md:text-4xl font-serif font-medium text-foreground">
@@ -168,9 +180,7 @@ export default function RegisterPage() {
         />
         <div className="relative z-10 flex flex-col justify-center p-16">
           <Link href="/" className="inline-flex items-center gap-3 mb-12">
-            <span className="w-12 h-12 flex items-center justify-center bg-background text-foreground font-serif text-xl font-semibold">
-              A
-            </span>
+            <img src="/logo-hon-tranh-viet-mark.svg" alt="Logo Hồn Tranh Việt" className="h-12 w-12" />
             <span className="font-serif text-3xl tracking-tight">Hồn Tranh Việt</span>
           </Link>
           <h2 className="text-4xl font-serif font-medium leading-tight mb-6">

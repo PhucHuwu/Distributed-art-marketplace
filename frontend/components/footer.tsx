@@ -9,9 +9,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 mb-4">
-              <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold">
-                H
-              </span>
+              <img src="/logo-hon-tranh-viet-mark.svg" alt="Logo Hồn Tranh Việt" className="h-11 w-11" />
               <span className="font-serif text-2xl tracking-tight">Hồn Tranh Việt</span>
             </Link>
             <p className="text-muted-foreground leading-relaxed max-w-sm mt-4">

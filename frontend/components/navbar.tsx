@@ -47,9 +47,11 @@ export function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="group flex items-center gap-3">
-            <span className="w-10 h-10 flex items-center justify-center bg-foreground text-background font-serif text-lg font-semibold transition-transform duration-300 group-hover:scale-105">
-              H
-            </span>
+            <img
+              src="/logo-hon-tranh-viet-mark.svg"
+              alt="Logo Hồn Tranh Việt"
+              className="h-10 w-10 transition-transform duration-300 group-hover:scale-[1.02]"
+            />
             <span className="font-serif text-2xl tracking-tight text-foreground hidden sm:block">
               Hồn Tranh Việt
             </span>
