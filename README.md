@@ -69,6 +69,15 @@ docker compose up -d --build
 
 Backend APIs will be available through gateway at `http://localhost/api/...`.
 
+### Default local admin account
+
+For local development, `auth-service` auto-seeds one admin account (when not in production):
+
+- Email: `admin@local.dev`
+- Password: `Admin@123456`
+
+You can use this account to test admin-only APIs and flows.
+
 ### 4) Frontend setup and run
 
 Open a second terminal:
