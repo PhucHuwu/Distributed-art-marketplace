@@ -10,6 +10,10 @@ type Pagination = {
 
 type ArtworkWhere = Prisma.ArtworkWhereInput;
 
+function isUuid(value: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+}
+
 function parsePositiveInt(value: string | undefined, defaultValue: number, maxValue: number): number {
   if (!value) {
     return defaultValue;
@@ -170,9 +174,9 @@ export async function listArtworks(query: ArtworkListQuery) {
 }
 
 export async function getArtworkByIdOrSlug(idOrSlug: string) {
-  const where: Prisma.ArtworkWhereInput = idOrSlug.includes('-')
+  const where: Prisma.ArtworkWhereInput = isUuid(idOrSlug)
     ? { OR: [{ id: idOrSlug }, { slug: idOrSlug }] }
-    : { OR: [{ slug: idOrSlug }, { id: idOrSlug }] };
+    : { slug: idOrSlug };
 
   const artwork = await prisma.artwork.findFirst({
     where,

@@ -1,4 +1,4 @@
-import { http } from './http';
+import { http, isApiError } from './http';
 import type {
   AddressPayload,
   AuthToken,
@@ -20,13 +20,38 @@ import type {
 
 export const authApi = {
   register: (email: string, password: string) =>
-    http.post<AuthToken>('/auth/register', { email, password }),
+    requestWithFallbackPath<AuthToken>(
+      '/auth/register',
+      '/auth/auth/register',
+      (path) => http.post<AuthToken>(path, { email, password }),
+    ),
 
   login: (email: string, password: string) =>
-    http.post<AuthToken>('/auth/login', { email, password }),
+    requestWithFallbackPath<AuthToken>('/auth/login', '/auth/auth/login', (path) =>
+      http.post<AuthToken>(path, { email, password }),
+    ),
 
-  verify: () => http.get<SessionUser>('/auth/verify', true),
+  verify: () =>
+    requestWithFallbackPath<SessionUser>('/auth/verify', '/auth/auth/verify', (path) =>
+      http.get<SessionUser>(path, true),
+    ),
 };
+
+async function requestWithFallbackPath<T>(
+  primaryPath: string,
+  fallbackPath: string,
+  requester: (path: string) => Promise<T>,
+): Promise<T> {
+  try {
+    return await requester(primaryPath);
+  } catch (error) {
+    if (isApiError(error) && error.status === 404) {
+      return requester(fallbackPath);
+    }
+
+    throw error;
+  }
+}
 
 export interface CatalogParams {
   page?: number;
@@ -68,8 +93,12 @@ function normalizeArtwork(artwork: CatalogArtwork): CatalogArtwork {
 
 export const catalogApi = {
   listArtworks: async (params: CatalogParams = {}): Promise<CatalogResult> => {
-    const path = `/catalog/artworks${toQueryString(params)}`;
-    const result = await http.getWithMeta<CatalogArtwork[]>(path);
+    const query = toQueryString(params);
+    const result = await requestWithFallbackPath<{ data: CatalogArtwork[]; meta?: Record<string, unknown> }>(
+      `/catalog/artworks${query}`,
+      `/catalog/catalog/artworks${query}`,
+      (path) => http.getWithMeta<CatalogArtwork[]>(path),
+    );
     const items = result.data.map(normalizeArtwork);
     const rawMeta = (result.meta || {}) as Partial<CatalogListMeta>;
 
@@ -84,38 +113,100 @@ export const catalogApi = {
   },
 
   getArtwork: async (idOrSlug: string) => {
-    const artwork = await http.get<CatalogArtwork>(`/catalog/artworks/${idOrSlug}`);
-    return normalizeArtwork(artwork);
+    try {
+      const artwork = await requestWithFallbackPath<CatalogArtwork>(
+        `/catalog/artworks/${idOrSlug}`,
+        `/catalog/catalog/artworks/${idOrSlug}`,
+        (path) => http.get<CatalogArtwork>(path),
+      );
+      return normalizeArtwork(artwork);
+    } catch (error) {
+      if (!isApiError(error) || error.status < 500) {
+        throw error;
+      }
+
+      const searchResult = await catalogApi.listArtworks({ q: idOrSlug, page: 1, limit: 50 });
+      const matched = searchResult.items.find(
+        (item) => item.slug === idOrSlug || item.id === idOrSlug,
+      );
+
+      if (!matched) {
+        throw error;
+      }
+
+      const artworkById = await requestWithFallbackPath<CatalogArtwork>(
+        `/catalog/artworks/${matched.id}`,
+        `/catalog/catalog/artworks/${matched.id}`,
+        (path) => http.get<CatalogArtwork>(path),
+      );
+
+      return normalizeArtwork(artworkById);
+    }
   },
 
-  listArtists: () => http.get<CatalogArtist[]>('/catalog/artists'),
+  listArtists: () =>
+    requestWithFallbackPath<CatalogArtist[]>('/catalog/artists', '/catalog/catalog/artists', (path) =>
+      http.get<CatalogArtist[]>(path),
+    ),
 
-  listCategories: () => http.get<CatalogCategory[]>('/catalog/categories'),
+  listCategories: () =>
+    requestWithFallbackPath<CatalogCategory[]>(
+      '/catalog/categories',
+      '/catalog/catalog/categories',
+      (path) => http.get<CatalogCategory[]>(path),
+    ),
 };
 
 export const inventoryApi = {
-  getStatus: (artworkId: string) => http.get<InventoryStatus>(`/inventory/${artworkId}`),
+  getStatus: (artworkId: string) =>
+    requestWithFallbackPath<InventoryStatus>(
+      `/inventory/${artworkId}`,
+      `/inventory/inventory/${artworkId}`,
+      (path) => http.get<InventoryStatus>(path),
+    ),
 };
 
 export const cartApi = {
-  getCart: () => http.get<Cart>('/orders/cart', true),
+  getCart: () =>
+    requestWithFallbackPath<Cart>('/orders/cart', '/orders/orders/cart', (path) =>
+      http.get<Cart>(path, true),
+    ),
 
   addItem: (artworkId: string, quantity: number, unitPrice: number) =>
-    http.post<Cart>('/orders/cart/items', { artworkId, quantity, unitPrice }, true),
+    requestWithFallbackPath<Cart>('/orders/cart/items', '/orders/orders/cart/items', (path) =>
+      http.post<Cart>(path, { artworkId, quantity, unitPrice }, true),
+    ),
 
   updateItem: (itemId: string, quantity: number) =>
-    http.put<Cart>(`/orders/cart/items/${itemId}`, { quantity }, true),
+    requestWithFallbackPath<Cart>(
+      `/orders/cart/items/${itemId}`,
+      `/orders/orders/cart/items/${itemId}`,
+      (path) => http.put<Cart>(path, { quantity }, true),
+    ),
 
-  deleteItem: (itemId: string) => http.delete<Cart>(`/orders/cart/items/${itemId}`, true),
+  deleteItem: (itemId: string) =>
+    requestWithFallbackPath<Cart>(
+      `/orders/cart/items/${itemId}`,
+      `/orders/orders/cart/items/${itemId}`,
+      (path) => http.delete<Cart>(path, true),
+    ),
 };
 
 export const ordersApi = {
   createOrder: (shippingAddress: AddressPayload) =>
-    http.post<Order>('/orders', { shippingAddress }, true),
+    requestWithFallbackPath<Order>('/orders', '/orders/orders', (path) =>
+      http.post<Order>(path, { shippingAddress }, true),
+    ),
 
-  listMyOrders: () => http.get<Order[]>('/orders/me', true),
+  listMyOrders: () =>
+    requestWithFallbackPath<Order[]>('/orders/me', '/orders/orders/me', (path) =>
+      http.get<Order[]>(path, true),
+    ),
 
-  getOrder: (orderId: string) => http.get<Order>(`/orders/${orderId}`, true),
+  getOrder: (orderId: string) =>
+    requestWithFallbackPath<Order>(`/orders/${orderId}`, `/orders/orders/${orderId}`, (path) =>
+      http.get<Order>(path, true),
+    ),
 };
 
 export interface PaymentPayload {
@@ -128,25 +219,49 @@ export interface PaymentPayload {
 }
 
 export const paymentsApi = {
-  createPayment: (payload: PaymentPayload) => http.post<Payment>('/payments', payload, true),
+  createPayment: (payload: PaymentPayload) =>
+    requestWithFallbackPath<Payment>('/payments', '/payments/payments', (path) =>
+      http.post<Payment>(path, payload, true),
+    ),
 
-  getPayment: (id: string) => http.get<PaymentDetail>(`/payments/${id}`, true),
+  getPayment: (id: string) =>
+    requestWithFallbackPath<PaymentDetail>(`/payments/${id}`, `/payments/payments/${id}`, (path) =>
+      http.get<PaymentDetail>(path, true),
+    ),
 };
 
 export const profileApi = {
-  getMe: () => http.get<UserProfile>('/users/me', true),
+  getMe: () =>
+    requestWithFallbackPath<UserProfile>('/users/me', '/users/users/me', (path) =>
+      http.get<UserProfile>(path, true),
+    ),
 
   updateMe: (payload: { fullName?: string; phoneNumber?: string; avatarUrl?: string }) =>
-    http.put<UserProfile>('/users/me', payload, true),
+    requestWithFallbackPath<UserProfile>('/users/me', '/users/users/me', (path) =>
+      http.put<UserProfile>(path, payload, true),
+    ),
 
-  listAddresses: () => http.get<UserAddress[]>('/users/me/addresses', true),
+  listAddresses: () =>
+    requestWithFallbackPath<UserAddress[]>('/users/me/addresses', '/users/users/me/addresses', (path) =>
+      http.get<UserAddress[]>(path, true),
+    ),
 
   createAddress: (payload: AddressPayload) =>
-    http.post<UserAddress>('/users/me/addresses', payload, true),
+    requestWithFallbackPath<UserAddress>('/users/me/addresses', '/users/users/me/addresses', (path) =>
+      http.post<UserAddress>(path, payload, true),
+    ),
 
   updateAddress: (addressId: string, payload: Partial<AddressPayload>) =>
-    http.put<UserAddress>(`/users/me/addresses/${addressId}`, payload, true),
+    requestWithFallbackPath<UserAddress>(
+      `/users/me/addresses/${addressId}`,
+      `/users/users/me/addresses/${addressId}`,
+      (path) => http.put<UserAddress>(path, payload, true),
+    ),
 
   deleteAddress: (addressId: string) =>
-    http.delete<{ deleted: true }>(`/users/me/addresses/${addressId}`, true),
+    requestWithFallbackPath<{ deleted: true }>(
+      `/users/me/addresses/${addressId}`,
+      `/users/users/me/addresses/${addressId}`,
+      (path) => http.delete<{ deleted: true }>(path, true),
+    ),
 };

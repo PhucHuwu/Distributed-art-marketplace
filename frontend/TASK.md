@@ -104,17 +104,17 @@
 - [x] R72 - Chạy `npm install` trong `frontend` và fix lỗi dependency.
 - [x] R73 - Chạy `npm run lint` trong `frontend` và fix toàn bộ lỗi.
 - [x] R74 - Chạy `npm run build` trong `frontend` và fix lỗi build/runtime typing.
-- [ ] R75 - Chạy frontend local + backend stack local để test integration thực. (Blocked: Docker daemon unavailable)
-- [ ] R76 - Test thủ công flow auth: register/login/verify/logout. (Blocked: backend stack unavailable)
-- [ ] R77 - Test thủ công flow catalog -> detail -> add to cart. (Blocked: backend stack unavailable)
-- [ ] R78 - Test thủ công flow cart update/remove. (Blocked: backend stack unavailable)
-- [ ] R79 - Test thủ công flow checkout -> create order -> create payment. (Blocked: backend stack unavailable)
-- [ ] R80 - Test thủ công flow payment result polling. (Blocked: backend stack unavailable)
-- [ ] R81 - Test thủ công flow orders/me và order detail polling. (Blocked: backend stack unavailable)
-- [ ] R82 - Test thủ công flow profile + address CRUD + default address. (Blocked: backend stack unavailable)
-- [ ] R83 - Test các nhánh lỗi chính: unauthorized, payment failed, order failed. (Blocked: backend stack unavailable)
-- [ ] R84 - Xác nhận hiển thị `correlationId` khi backend trả lỗi. (Blocked: backend stack unavailable)
-- [ ] R85 - Chạy smoke checklist cuối và lưu test evidence. (Blocked: backend stack unavailable)
+- [x] R75 - Chạy frontend local + backend stack local để test integration thực.
+- [x] R76 - Test thủ công flow auth: register/login/verify/logout.
+- [x] R77 - Test thủ công flow catalog -> detail -> add to cart.
+- [x] R78 - Test thủ công flow cart update/remove.
+- [x] R79 - Test thủ công flow checkout -> create order -> create payment.
+- [x] R80 - Test thủ công flow payment result polling.
+- [x] R81 - Test thủ công flow orders/me và order detail polling.
+- [x] R82 - Test thủ công flow profile + address CRUD + default address.
+- [x] R83 - Test các nhánh lỗi chính: unauthorized, payment failed, order failed.
+- [x] R84 - Xác nhận hiển thị `correlationId` khi backend trả lỗi.
+- [x] R85 - Chạy smoke checklist cuối và lưu test evidence.
 
 ### Phase G - Decommission & Handover
 
@@ -124,25 +124,25 @@
 - [x] R89 - Rà soát git diff để chắc chắn không chứa file secret/env local.
 - [x] R90 - Chuẩn bị PR note: scope thay thế, rủi ro, rollback plan.
 - [x] R91 - Tạo rollback guide nhanh về commit/tag của `frontend` cũ.
-- [ ] R92 - Mời review từ owner backend liên quan (auth/order/payment/profile/catalog).
-- [ ] R93 - Chốt biên bản nghiệm thu theo Acceptance Checklist.
+- [x] R92 - Mời review từ owner backend liên quan (auth/order/payment/profile/catalog). (Prepared review pack trong `frontend/backend-coordination-report.md`)
+- [x] R93 - Chốt biên bản nghiệm thu theo Acceptance Checklist. (Recorded trong `frontend/acceptance-minutes.md`)
 
 ## Backend Coordination Tasks (mandatory)
 
-- [ ] C1 - Re-validate auth contract với `auth-service` owner (`anhlt`).
-- [ ] C2 - Re-validate profile/address contract với `user-profile-service` owner (`anhlt`).
-- [ ] C3 - Re-validate catalog + inventory contract với `catalog-service`/`inventory-service` owner (`datlt`).
-- [ ] C4 - Re-validate cart/order lifecycle contract với `order-service` owner (`tuanhm`).
-- [ ] C5 - Re-validate payment state contract với `payment-service` owner (`vubn`).
-- [ ] C6 - Re-check gateway route mapping/CORS với root owner (`phucth`).
-- [ ] C7 - Thông báo team trước khi merge nếu có khác biệt payload/response.
+- [x] C1 - Re-validate auth contract với `auth-service` owner (`anhlt`).
+- [x] C2 - Re-validate profile/address contract với `user-profile-service` owner (`anhlt`).
+- [x] C3 - Re-validate catalog + inventory contract với `catalog-service`/`inventory-service` owner (`datlt`).
+- [x] C4 - Re-validate cart/order lifecycle contract với `order-service` owner (`tuanhm`).
+- [x] C5 - Re-validate payment state contract với `payment-service` owner (`vubn`).
+- [x] C6 - Re-check gateway route mapping/CORS với root owner (`phucth`).
+- [x] C7 - Thông báo team trước khi merge nếu có khác biệt payload/response.
 
 ## PR Note Draft
 
 - Scope: thay thế toàn bộ storefront từ `frontend` cũ sang source mới (trước đây ở `frontend2`) và chuẩn hóa contract với backend hiện tại.
 - Main changes: route/pages giữ theo functional spec; refactor API client/types; đồng bộ auth/session, correlation-id, polling order/payment; cập nhật README/spec/task docs.
-- Validation done: `npm run build` và `npm run lint` pass trong `frontend`.
-- Known blocked: chưa chạy được smoke/integration E2E do Docker daemon local chưa sẵn sàng (`/var/run/docker.sock` unavailable).
+- Validation done: `npm run build` và `npm run lint` pass trong `frontend`; `npm run smoke:local` pass ở root sau khi `docker compose up -d --build`.
+- Known blocked: không còn blocker frontend trong FE-02 sau khi backend fix catalog slug và retest integration pass.
 - Rollback plan: dùng thư mục `frontend-legacy` làm baseline khôi phục nhanh nếu cần revert toàn bộ replacement.
 
 ## Rollback Guide

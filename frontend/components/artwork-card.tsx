@@ -7,7 +7,7 @@ function formatPrice(price: number, currency: string) {
 }
 
 export function ArtworkCard({ artwork }: { artwork: CatalogArtwork }) {
-  const href = `/artworks/${artwork.slug || artwork.id}`;
+  const href = `/artworks/${artwork.id}`;
   const cover = artwork.images[0]?.url;
   const category = artwork.categories[0]?.name;
 
