@@ -14,6 +14,7 @@ import type {
   Payment,
   PaymentDetail,
   SessionUser,
+  AdminAuditLog,
   UserAddress,
   UserProfile,
 } from './types';
@@ -21,18 +22,18 @@ import type {
 export const authApi = {
   register: (email: string, password: string) =>
     requestWithFallbackPath<AuthToken>(
-      '/auth/register',
       '/auth/auth/register',
+      '/auth/register',
       (path) => http.post<AuthToken>(path, { email, password }),
     ),
 
   login: (email: string, password: string) =>
-    requestWithFallbackPath<AuthToken>('/auth/login', '/auth/auth/login', (path) =>
+    requestWithFallbackPath<AuthToken>('/auth/auth/login', '/auth/login', (path) =>
       http.post<AuthToken>(path, { email, password }),
     ),
 
   verify: () =>
-    requestWithFallbackPath<SessionUser>('/auth/verify', '/auth/auth/verify', (path) =>
+    requestWithFallbackPath<SessionUser>('/auth/auth/verify', '/auth/verify', (path) =>
       http.get<SessionUser>(path, true),
     ),
 };
@@ -95,8 +96,8 @@ export const catalogApi = {
   listArtworks: async (params: CatalogParams = {}): Promise<CatalogResult> => {
     const query = toQueryString(params);
     const result = await requestWithFallbackPath<{ data: CatalogArtwork[]; meta?: Record<string, unknown> }>(
-      `/catalog/artworks${query}`,
       `/catalog/catalog/artworks${query}`,
+      `/catalog/artworks${query}`,
       (path) => http.getWithMeta<CatalogArtwork[]>(path),
     );
     const items = result.data.map(normalizeArtwork);
@@ -115,8 +116,8 @@ export const catalogApi = {
   getArtwork: async (idOrSlug: string) => {
     try {
       const artwork = await requestWithFallbackPath<CatalogArtwork>(
-        `/catalog/artworks/${idOrSlug}`,
         `/catalog/catalog/artworks/${idOrSlug}`,
+        `/catalog/artworks/${idOrSlug}`,
         (path) => http.get<CatalogArtwork>(path),
       );
       return normalizeArtwork(artwork);
@@ -135,8 +136,8 @@ export const catalogApi = {
       }
 
       const artworkById = await requestWithFallbackPath<CatalogArtwork>(
-        `/catalog/artworks/${matched.id}`,
         `/catalog/catalog/artworks/${matched.id}`,
+        `/catalog/artworks/${matched.id}`,
         (path) => http.get<CatalogArtwork>(path),
       );
 
@@ -145,14 +146,14 @@ export const catalogApi = {
   },
 
   listArtists: () =>
-    requestWithFallbackPath<CatalogArtist[]>('/catalog/artists', '/catalog/catalog/artists', (path) =>
+    requestWithFallbackPath<CatalogArtist[]>('/catalog/catalog/artists', '/catalog/artists', (path) =>
       http.get<CatalogArtist[]>(path),
     ),
 
   listCategories: () =>
     requestWithFallbackPath<CatalogCategory[]>(
-      '/catalog/categories',
       '/catalog/catalog/categories',
+      '/catalog/categories',
       (path) => http.get<CatalogCategory[]>(path),
     ),
 };
@@ -160,9 +161,148 @@ export const catalogApi = {
 export const inventoryApi = {
   getStatus: (artworkId: string) =>
     requestWithFallbackPath<InventoryStatus>(
-      `/inventory/${artworkId}`,
       `/inventory/inventory/${artworkId}`,
+      `/inventory/${artworkId}`,
       (path) => http.get<InventoryStatus>(path),
+    ),
+
+  adjustStock: (payload: { artworkId: string; deltaQty: number; reason?: string }) =>
+    requestWithFallbackPath<InventoryStatus>(
+      '/inventory/inventory/adjust',
+      '/inventory/adjust',
+      (path) => http.post<InventoryStatus>(path, payload, true),
+    ),
+};
+
+export type AdminArtistPayload = {
+  name: string;
+  slug: string;
+  bio?: string;
+};
+
+export type AdminCategoryPayload = {
+  name: string;
+  slug: string;
+  description?: string;
+};
+
+export type AdminArtworkPayload = {
+  title: string;
+  slug: string;
+  description?: string;
+  price: number;
+  currency: string;
+  artistId: string;
+  categoryIds: string[];
+  images: Array<{ url: string; altText?: string; position: number }>;
+};
+
+export const adminCatalogApi = {
+  createArtist: (payload: AdminArtistPayload) =>
+    requestWithFallbackPath<CatalogArtist>('/catalog/catalog/artists', '/catalog/artists', (path) =>
+      http.post<CatalogArtist>(path, payload, true),
+    ),
+
+  updateArtist: (artistId: string, payload: AdminArtistPayload) =>
+    requestWithFallbackPath<CatalogArtist>(
+      `/catalog/catalog/artists/${artistId}`,
+      `/catalog/artists/${artistId}`,
+      (path) => http.put<CatalogArtist>(path, payload, true),
+    ),
+
+  deleteArtist: (artistId: string) =>
+    requestWithFallbackPath<{ deleted: true }>(
+      `/catalog/catalog/artists/${artistId}`,
+      `/catalog/artists/${artistId}`,
+      (path) => http.delete<{ deleted: true }>(path, true),
+    ),
+
+  createCategory: (payload: AdminCategoryPayload) =>
+    requestWithFallbackPath<CatalogCategory>('/catalog/catalog/categories', '/catalog/categories', (path) =>
+      http.post<CatalogCategory>(path, payload, true),
+    ),
+
+  updateCategory: (categoryId: string, payload: AdminCategoryPayload) =>
+    requestWithFallbackPath<CatalogCategory>(
+      `/catalog/catalog/categories/${categoryId}`,
+      `/catalog/categories/${categoryId}`,
+      (path) => http.put<CatalogCategory>(path, payload, true),
+    ),
+
+  deleteCategory: (categoryId: string) =>
+    requestWithFallbackPath<{ deleted: true }>(
+      `/catalog/catalog/categories/${categoryId}`,
+      `/catalog/categories/${categoryId}`,
+      (path) => http.delete<{ deleted: true }>(path, true),
+    ),
+
+  createArtwork: (payload: AdminArtworkPayload) =>
+    requestWithFallbackPath<CatalogArtwork>('/catalog/catalog/artworks', '/catalog/artworks', (path) =>
+      http.post<CatalogArtwork>(path, payload, true),
+    ),
+
+  updateArtwork: (artworkId: string, payload: AdminArtworkPayload) =>
+    requestWithFallbackPath<CatalogArtwork>(
+      `/catalog/catalog/artworks/${artworkId}`,
+      `/catalog/artworks/${artworkId}`,
+      (path) => http.put<CatalogArtwork>(path, payload, true),
+    ),
+
+  deleteArtwork: (artworkId: string) =>
+    requestWithFallbackPath<{ deleted: true }>(
+      `/catalog/catalog/artworks/${artworkId}`,
+      `/catalog/artworks/${artworkId}`,
+      (path) => http.delete<{ deleted: true }>(path, true),
+    ),
+};
+
+export type AdminAuditQuery = {
+  userId?: string;
+  orderId?: string;
+  service?: string;
+  eventType?: string;
+  from?: string;
+  to?: string;
+  limit?: number;
+};
+
+function toAdminAuditQueryString(params: AdminAuditQuery): string {
+  const entries = Object.entries(params).filter(([, value]) => value !== undefined && value !== '');
+  if (entries.length === 0) {
+    return '';
+  }
+
+  const search = new URLSearchParams();
+  for (const [key, value] of entries) {
+    search.set(key, String(value));
+  }
+
+  return `?${search.toString()}`;
+}
+
+export const adminAuditApi = {
+  listLogs: async (query: AdminAuditQuery = {}) => {
+    const queryString = toAdminAuditQueryString(query);
+    const result = await requestWithFallbackPath<{ data: AdminAuditLog[]; meta?: { count?: number; limit?: number } }>(
+      `/admin/audit-logs/admin/audit-logs${queryString}`,
+      `/admin/audit-logs${queryString}`,
+      (path) => http.getWithMeta<AdminAuditLog[]>(path, true),
+    );
+
+    return {
+      items: result.data,
+      meta: {
+        count: Number(result.meta?.count || result.data.length),
+        limit: Number(result.meta?.limit || query.limit || 50),
+      },
+    };
+  },
+
+  getLogByEventId: (eventId: string) =>
+    requestWithFallbackPath<AdminAuditLog>(
+      `/admin/audit-logs/admin/audit-logs/${eventId}`,
+      `/admin/audit-logs/${eventId}`,
+      (path) => http.get<AdminAuditLog>(path, true),
     ),
 };
 

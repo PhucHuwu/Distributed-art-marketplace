@@ -307,6 +307,28 @@ export async function updateArtist(artistId: string, payload: unknown) {
   }
 }
 
+export async function deleteArtist(artistId: string) {
+  const existing = await prisma.artist.findUnique({ where: { id: artistId }, select: { id: true } });
+  if (!existing) {
+    throw new HttpError(404, 'NOT_FOUND', 'Artist not found');
+  }
+
+  try {
+    await prisma.artist.delete({ where: { id: artistId } });
+    return { deleted: true as const };
+  } catch (error) {
+    const known = error as Prisma.PrismaClientKnownRequestError;
+    if (known.code === 'P2003') {
+      throw new HttpError(
+        409,
+        'CONFLICT',
+        'Cannot delete artist while artworks still reference this artist',
+      );
+    }
+    throw error;
+  }
+}
+
 export async function createCategory(payload: unknown) {
   const data = validateAdminNamedEntityPayload(payload);
 
@@ -363,6 +385,16 @@ export async function updateCategory(categoryId: string, payload: unknown) {
     }
     throw error;
   }
+}
+
+export async function deleteCategory(categoryId: string) {
+  const existing = await prisma.category.findUnique({ where: { id: categoryId }, select: { id: true } });
+  if (!existing) {
+    throw new HttpError(404, 'NOT_FOUND', 'Category not found');
+  }
+
+  await prisma.category.delete({ where: { id: categoryId } });
+  return { deleted: true as const };
 }
 
 function validateAdminArtworkPayload(payload: unknown): AdminArtworkUpsertInput {
@@ -548,4 +580,14 @@ export async function updateArtwork(artworkId: string, payload: unknown) {
     }
     throw error;
   }
+}
+
+export async function deleteArtwork(artworkId: string) {
+  const existing = await prisma.artwork.findUnique({ where: { id: artworkId }, select: { id: true } });
+  if (!existing) {
+    throw new HttpError(404, 'NOT_FOUND', 'Artwork not found');
+  }
+
+  await prisma.artwork.delete({ where: { id: artworkId } });
+  return { deleted: true as const };
 }

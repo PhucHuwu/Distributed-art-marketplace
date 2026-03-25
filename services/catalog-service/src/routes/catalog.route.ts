@@ -3,6 +3,9 @@ import {
   createArtist,
   createArtwork,
   createCategory,
+  deleteArtist,
+  deleteArtwork,
+  deleteCategory,
   getArtworkByIdOrSlug,
   listArtists,
   listArtworks,
@@ -21,8 +24,11 @@ type CatalogRouteDeps = {
   updateArtwork: typeof updateArtwork;
   createArtist: typeof createArtist;
   updateArtist: typeof updateArtist;
+  deleteArtist: typeof deleteArtist;
   createCategory: typeof createCategory;
   updateCategory: typeof updateCategory;
+  deleteCategory: typeof deleteCategory;
+  deleteArtwork: typeof deleteArtwork;
 };
 
 export function createCatalogRouter(deps?: Partial<CatalogRouteDeps>): Router {
@@ -35,8 +41,11 @@ export function createCatalogRouter(deps?: Partial<CatalogRouteDeps>): Router {
     updateArtwork,
     createArtist,
     updateArtist,
+    deleteArtist,
     createCategory,
     updateCategory,
+    deleteCategory,
+    deleteArtwork,
     ...deps,
   };
 
@@ -137,6 +146,15 @@ export function createCatalogRouter(deps?: Partial<CatalogRouteDeps>): Router {
     }
   });
 
+  router.delete('/catalog/artworks/:id', async (req, res, next) => {
+    try {
+      const result = await routeDeps.deleteArtwork(req.params.id);
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.post('/catalog/artists', async (req, res, next) => {
     try {
       const created = await routeDeps.createArtist(req.body);
@@ -161,6 +179,15 @@ export function createCatalogRouter(deps?: Partial<CatalogRouteDeps>): Router {
     }
   });
 
+  router.delete('/catalog/artists/:id', async (req, res, next) => {
+    try {
+      const result = await routeDeps.deleteArtist(req.params.id);
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.post('/catalog/categories', async (req, res, next) => {
     try {
       const created = await routeDeps.createCategory(req.body);
@@ -180,6 +207,15 @@ export function createCatalogRouter(deps?: Partial<CatalogRouteDeps>): Router {
         success: true,
         data: updated,
       });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.delete('/catalog/categories/:id', async (req, res, next) => {
+    try {
+      const result = await routeDeps.deleteCategory(req.params.id);
+      res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);
     }

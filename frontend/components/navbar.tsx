@@ -119,6 +119,14 @@ export function Navbar() {
                       <span>Lịch sử đơn hàng</span>
                     </Link>
                   </DropdownMenuItem>
+                  {user.role === 'ADMIN' && (
+                    <DropdownMenuItem asChild className="py-2.5 px-3 cursor-pointer">
+                      <Link href="/admin">
+                        <Package className="w-4 h-4 mr-3 text-muted-foreground" />
+                        <span>Quản trị hệ thống</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuSeparator className="my-2" />
                   <DropdownMenuItem
                     onClick={handleLogout}
@@ -196,6 +204,15 @@ export function Navbar() {
               >
                 Hồ sơ
               </Link>
+              {user.role === 'ADMIN' && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-base font-medium text-muted-foreground py-2 hover:text-foreground transition-colors"
+                >
+                  Quản trị hệ thống
+                </Link>
+              )}
               <button
                 onClick={() => {
                   handleLogout();

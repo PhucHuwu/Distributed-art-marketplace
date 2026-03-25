@@ -111,6 +111,13 @@ function createTestApp() {
           bio: null,
         };
       },
+      deleteArtist: async (id) => {
+        if (id === 'missing') {
+          throw new HttpError(404, 'NOT_FOUND', 'Artist not found');
+        }
+
+        return { deleted: true as const };
+      },
       createCategory: async (body) => ({
         id: 'cat-new',
         slug: String((body as Record<string, unknown>).slug || 'category-new'),
@@ -128,6 +135,20 @@ function createTestApp() {
           name: String((body as Record<string, unknown>).name || 'Landscape'),
           description: null,
         };
+      },
+      deleteCategory: async (id) => {
+        if (id === 'missing') {
+          throw new HttpError(404, 'NOT_FOUND', 'Category not found');
+        }
+
+        return { deleted: true as const };
+      },
+      deleteArtwork: async (id) => {
+        if (id === 'missing') {
+          throw new HttpError(404, 'NOT_FOUND', 'Artwork not found');
+        }
+
+        return { deleted: true as const };
       },
     }),
   );
@@ -257,4 +278,22 @@ test('artist/category admin CRUD endpoints enforce auth and return expected resu
     .set('Authorization', `Bearer ${adminToken}`)
     .send({ name: 'D', slug: 'd' });
   assert.equal(categoryUpdate.status, 200);
+
+  const artworkDelete = await request(app)
+    .delete('/catalog/artworks/artwork-1')
+    .set('Authorization', `Bearer ${adminToken}`);
+  assert.equal(artworkDelete.status, 200);
+  assert.equal(artworkDelete.body.data.deleted, true);
+
+  const artistDelete = await request(app)
+    .delete('/catalog/artists/artist-1')
+    .set('Authorization', `Bearer ${adminToken}`);
+  assert.equal(artistDelete.status, 200);
+  assert.equal(artistDelete.body.data.deleted, true);
+
+  const categoryDelete = await request(app)
+    .delete('/catalog/categories/cat-1')
+    .set('Authorization', `Bearer ${adminToken}`);
+  assert.equal(categoryDelete.status, 200);
+  assert.equal(categoryDelete.body.data.deleted, true);
 });

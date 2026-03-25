@@ -221,3 +221,18 @@ export type AddressPayload = {
   postalCode?: string;
   isDefault?: boolean;
 };
+
+export type AdminAuditLog = {
+  id: string;
+  eventId: string;
+  eventType: string;
+  serviceName: string;
+  aggregateId: string | null;
+  orderId: string | null;
+  userId: string | null;
+  payload: Record<string, unknown>;
+  occurredAt: string;
+  receivedAt: string;
+  correlationId: string;
+  version: string;
+};
